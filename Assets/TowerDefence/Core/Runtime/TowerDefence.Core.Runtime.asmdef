@@ -1,7 +1,9 @@
 {
     "name": "TowerDefence.Core.Runtime",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:03aeb30d5ea9cfc43b5007b68f63924c"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

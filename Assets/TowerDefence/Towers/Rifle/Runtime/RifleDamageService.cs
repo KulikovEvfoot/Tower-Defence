@@ -1,4 +1,6 @@
-﻿namespace TowerDefence.Runtime.Rifle
+﻿using TowerDefence.Core.Runtime;
+
+namespace TowerDefence.Towers.Rifle.Runtime
 {
     public class RifleDamageService
     {

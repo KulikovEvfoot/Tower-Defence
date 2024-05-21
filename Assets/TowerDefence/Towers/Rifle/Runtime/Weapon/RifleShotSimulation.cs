@@ -1,8 +1,9 @@
 using System.Runtime.CompilerServices;
+using TowerDefence.Core.Runtime;
 using UnityEngine;
 
 [assembly:InternalsVisibleTo("TowerDefence.Towers.Rifle.Tests")]
-namespace TowerDefence.Runtime.Rifle
+namespace TowerDefence.Towers.Rifle.Runtime.Weapon
 {
     internal class RifleShotSimulation
     {
@@ -13,7 +14,7 @@ namespace TowerDefence.Runtime.Rifle
 
         private float m_TimeCounter;
 
-        public IShotTarget Target { get; set; }
+        internal IShotTarget Target { get; set; }
         internal IAmmo Ammo { get; }
         internal bool IsCompleted { get; private set; }
 

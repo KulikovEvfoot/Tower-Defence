@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TowerDefence.Runtime
+namespace TowerDefence.Core.Runtime.Stub
 {
     public class StubAmmo : IAmmo
     {

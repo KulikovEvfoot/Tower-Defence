@@ -1,32 +1,34 @@
 using System;
 using System.Collections.Generic;
 using Common;
+using TowerDefence.Core.Runtime;
 using UnityEngine;
 
-namespace TowerDefence.Runtime.Rifle
+namespace TowerDefence.Towers.Rifle.Runtime.Weapon
 {
-    public class RifleWeapon : IShotStrategy, IDisposable
+    internal class RifleWeapon : IShotStrategy, IDisposable
     {
         private readonly RifleAmmoSpawner m_RifleAmmoSpawner;
-        private readonly Vector3 m_Sender;
+        private readonly RifleAmmoAnchorPoint m_RifleAmmoAnchorPoint;
         private readonly UpdateMaster m_UpdateMaster;
         private readonly RifleDamageService m_RifleDamageService;
         
         private readonly List<RifleShotSimulation> m_Simulations = new();
 
-        public RifleWeapon(RifleAmmoSpawner rifleAmmoSpawner, Vector3 sender, UpdateMaster updateMaster)
+        internal RifleWeapon(RifleAmmoSpawner rifleAmmoSpawner, RifleAmmoAnchorPoint anchorPoint, UpdateMaster updateMaster)
         {
             m_RifleAmmoSpawner = rifleAmmoSpawner;
-            m_Sender = sender;
+            m_RifleAmmoAnchorPoint = anchorPoint;
             m_UpdateMaster = updateMaster;
+            m_RifleDamageService = new RifleDamageService();
             
             m_UpdateMaster.OnUpdate += UpdateAmmoPosition;
         }
 
         public void Shot(IShotTarget target)
         {
-            var bullet = m_RifleAmmoSpawner.Create(m_Sender);
-            var simulation = new RifleShotSimulation(m_Sender, target, bullet);
+            var ammo = m_RifleAmmoSpawner.Spawn();
+            var simulation = new RifleShotSimulation(m_RifleAmmoAnchorPoint.Position, target, ammo);
             m_Simulations.Add(simulation);
         }
 
