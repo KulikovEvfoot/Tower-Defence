@@ -1,6 +1,6 @@
 namespace TowerDefence.Runtime
 {
-    public class AttackTower
+    public class RifleTower
     {
         private IShotStrategy m_ShotStrategy;
     

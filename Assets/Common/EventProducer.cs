@@ -5,10 +5,11 @@ namespace Common
 {
     public class EventProducer<T> : IEventProducer<T>
     {
-        private readonly List<T> m_Observers = new List<T>();
+        private readonly List<T> m_Observers = new();
         
-        public int ObserversCount => m_Observers.Count;
-
+        private List<T> m_CacheList = new();
+        private bool m_HasObserversCountChanged;
+        
         public void Attach(T observer)
         {
             if (m_Observers.Contains(observer))
@@ -17,18 +18,26 @@ namespace Common
             }
             
             m_Observers.Add(observer);
+            m_HasObserversCountChanged = true;
         }
 
         public void Detach(T observer)
         {
             m_Observers.Remove(observer);
+            m_HasObserversCountChanged = true;
         }
         
         public void NotifyAll(Action<T> notification)
         {
-            for (var index = 0; index < m_Observers.Count; index++)
+            if (m_HasObserversCountChanged)
             {
-                notification?.Invoke(m_Observers[index]);
+                m_CacheList = new List<T>(m_Observers);
+                m_HasObserversCountChanged = false;
+            }
+
+            foreach (var item in m_CacheList)
+            {
+                notification?.Invoke(item);
             }
         }
     }
