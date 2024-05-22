@@ -1,0 +1,54 @@
+{
+    "name": "InputMap",
+    "maps": [
+        {
+            "name": "KeyboardAndMouse",
+            "id": "bed047ea-c178-4774-b6cd-b1a0734af34a",
+            "actions": [
+                {
+                    "name": "MouseDelta",
+                    "type": "PassThrough",
+                    "id": "46ae0cb0-6890-48d3-9735-eebfca7ad365",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseSwipe",
+                    "type": "Button",
+                    "id": "afdd9b97-edd8-4bdb-a1e1-763113e43a13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "38c360cb-12c7-44ad-aeaf-182868391de9",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseSwipe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2b92279-b836-4d62-ac62-ce65a32326ff",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
