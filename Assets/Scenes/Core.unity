@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 310311835}
   - component: {fileID: 310311836}
   - component: {fileID: 310311834}
+  - component: {fileID: 310311837}
   m_Layer: 0
   m_Name: CoreSceneContext
   m_TagString: Untagged
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8f381528c64f45b243879ea4b9d444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CoroutineRunner: {fileID: 310311837}
 --- !u!4 &310311835
 Transform:
   m_ObjectHideFlags: 0
@@ -200,6 +202,18 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
+--- !u!114 &310311837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310311833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6baa3162bc484951af87e315945489f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &485002996
 GameObject:
   m_ObjectHideFlags: 0
