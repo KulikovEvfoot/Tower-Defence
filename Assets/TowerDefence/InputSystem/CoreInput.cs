@@ -1,4 +1,5 @@
 using System;
+using TowerDefence.Core.Runtime;
 using TowerDefence.InputSystem.KeyboardAndMouse;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace TowerDefence.InputSystem
 {
     public class CoreInput : ICoreInput, IDisposable
     {
+        public event Action<Vector2> CursorPositionInputReceived;
+        public event Action TapInputReceived;
         public event Action<Vector2> MovingInputReceived;
         public event Action<bool> SwipeInputReceived;
 
@@ -25,8 +28,20 @@ namespace TowerDefence.InputSystem
         private void InitKeyBoardInput(InputMap inputMap)
         {
             m_KeyboardAndMouseInput = new KeyboardAndMouseInput(inputMap);
+            m_KeyboardAndMouseInput.CursorPositionInputReceived += OnCursorInputReceived;
+            m_KeyboardAndMouseInput.TapInputReceived += OnTapInputReceived;
             m_KeyboardAndMouseInput.MovingInputReceived += OnMovingInputReceived;
             m_KeyboardAndMouseInput.SwipeInputReceived += OnSwipeInputReceived;
+        }
+
+        private void OnCursorInputReceived(Vector2 position)
+        {
+            CursorPositionInputReceived?.Invoke(position);
+        }
+
+        private void OnTapInputReceived()
+        {
+            TapInputReceived?.Invoke();
         }
 
         private void OnMovingInputReceived(Vector2 delta)
@@ -43,6 +58,8 @@ namespace TowerDefence.InputSystem
         {
             if (m_KeyboardAndMouseInput != null)
             {
+                m_KeyboardAndMouseInput.CursorPositionInputReceived -= OnCursorInputReceived;
+                m_KeyboardAndMouseInput.TapInputReceived -= OnTapInputReceived;
                 m_KeyboardAndMouseInput.MovingInputReceived -= OnMovingInputReceived;
                 m_KeyboardAndMouseInput.SwipeInputReceived -= OnSwipeInputReceived;
             }

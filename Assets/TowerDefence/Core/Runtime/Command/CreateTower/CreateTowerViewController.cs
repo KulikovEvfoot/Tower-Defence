@@ -22,9 +22,24 @@ namespace TowerDefence.Core.Runtime.Command.CreateTower
             m_ViewConfigurator.Configure(m_View, config);
         }
 
+        public void Show()
+        {
+            //sub to tap system and listen tap to world point
+
+            OnViewButtonClick("1");
+            // m_View.Show();
+        }
+        
+        public void Hide()
+        {
+            m_View.Hide();
+        }
+        
         private void OnViewButtonClick(string towerId)
         {
-            m_Actions[m_PointId].Execute(null);
+            m_Actions[m_PointId].Execute(new CreateTowerArgs(m_PointId, towerId));
+            
+            Hide();
         }
 
         public void Dispose()

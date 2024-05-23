@@ -1,4 +1,5 @@
 using Common;
+using TowerDefence.Core.Runtime;
 using TowerDefence.InputSystem;
 using TowerDefence.Installer.Camera;
 using TowerDefence.Installer.Launcher;
@@ -9,6 +10,7 @@ namespace TowerDefence.Installer
 {
     public class CoreSceneInstaller : MonoInstaller
     {
+        [SerializeField] private CameraProvider m_CameraProvider;
         [SerializeField] private CoroutineRunner m_CoroutineRunner;
         
         public override void InstallBindings()
@@ -17,7 +19,12 @@ namespace TowerDefence.Installer
             
             Container.Bind<ICoreInput>().To<CoreInput>().AsSingle().NonLazy();
             
-            Container.Bind<CameraMoveHandler>().AsSingle().NonLazy();
+            Container.Bind<CameraProvider>().FromInstance(m_CameraProvider).AsSingle().NonLazy();
+            Container.Bind<CameraController>().AsSingle().NonLazy();
+            
+            Container.Bind<TowerFactoryProvider>().AsSingle().NonLazy();
+            
+            Container.Bind<AddressablesController>().AsSingle().NonLazy();
             
             Container.Bind<ICoroutineRunner>().FromInstance(m_CoroutineRunner).AsSingle().NonLazy();
             

@@ -7,6 +7,11 @@ namespace TowerDefence.Core.Runtime
     {
         private readonly Dictionary<int, Dictionary<string, ITowerFactory>> m_Factories = new();
 
+        public void Register()
+        {
+            
+        }
+
         public Result<ITowerFactory> Get(int pointId, string towerId)
         {
             if (m_Factories.TryGetValue(pointId, out var towersMap))

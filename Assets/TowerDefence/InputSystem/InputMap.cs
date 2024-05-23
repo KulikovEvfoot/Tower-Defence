@@ -44,6 +44,24 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d834abf-8b60-41b2-89e2-30bff257a4b9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""aec50a09-5b6f-477f-a767-16a74194b1b9"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -68,6 +86,28 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""MouseDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17d40fa2-5dfb-4991-a052-803a98337131"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0c6d72c-11de-468c-9702-c9927587129b"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +118,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_KeyboardAndMouse = asset.FindActionMap("KeyboardAndMouse", throwIfNotFound: true);
         m_KeyboardAndMouse_MouseDelta = m_KeyboardAndMouse.FindAction("MouseDelta", throwIfNotFound: true);
         m_KeyboardAndMouse_MouseSwipe = m_KeyboardAndMouse.FindAction("MouseSwipe", throwIfNotFound: true);
+        m_KeyboardAndMouse_MouseTap = m_KeyboardAndMouse.FindAction("MouseTap", throwIfNotFound: true);
+        m_KeyboardAndMouse_MousePosition = m_KeyboardAndMouse.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,12 +183,16 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private List<IKeyboardAndMouseActions> m_KeyboardAndMouseActionsCallbackInterfaces = new List<IKeyboardAndMouseActions>();
     private readonly InputAction m_KeyboardAndMouse_MouseDelta;
     private readonly InputAction m_KeyboardAndMouse_MouseSwipe;
+    private readonly InputAction m_KeyboardAndMouse_MouseTap;
+    private readonly InputAction m_KeyboardAndMouse_MousePosition;
     public struct KeyboardAndMouseActions
     {
         private @InputMap m_Wrapper;
         public KeyboardAndMouseActions(@InputMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseDelta => m_Wrapper.m_KeyboardAndMouse_MouseDelta;
         public InputAction @MouseSwipe => m_Wrapper.m_KeyboardAndMouse_MouseSwipe;
+        public InputAction @MouseTap => m_Wrapper.m_KeyboardAndMouse_MouseTap;
+        public InputAction @MousePosition => m_Wrapper.m_KeyboardAndMouse_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_KeyboardAndMouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,6 +208,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @MouseSwipe.started += instance.OnMouseSwipe;
             @MouseSwipe.performed += instance.OnMouseSwipe;
             @MouseSwipe.canceled += instance.OnMouseSwipe;
+            @MouseTap.started += instance.OnMouseTap;
+            @MouseTap.performed += instance.OnMouseTap;
+            @MouseTap.canceled += instance.OnMouseTap;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
         }
 
         private void UnregisterCallbacks(IKeyboardAndMouseActions instance)
@@ -172,6 +224,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @MouseSwipe.started -= instance.OnMouseSwipe;
             @MouseSwipe.performed -= instance.OnMouseSwipe;
             @MouseSwipe.canceled -= instance.OnMouseSwipe;
+            @MouseTap.started -= instance.OnMouseTap;
+            @MouseTap.performed -= instance.OnMouseTap;
+            @MouseTap.canceled -= instance.OnMouseTap;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
         }
 
         public void RemoveCallbacks(IKeyboardAndMouseActions instance)
@@ -193,5 +251,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     {
         void OnMouseDelta(InputAction.CallbackContext context);
         void OnMouseSwipe(InputAction.CallbackContext context);
+        void OnMouseTap(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }
