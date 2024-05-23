@@ -5,14 +5,12 @@ namespace TowerDefence.Installer
 {
     public class AddressablesController
     {
-        private readonly AddressablesService m_AddressablesService;
-
-        public AddressablesService AddressablesService => m_AddressablesService;
+        public AddressablesService AddressablesService { get; }
 
         [Inject]
-        public AddressablesController(AddressablesService addressablesService)
+        public AddressablesController()
         {
-            m_AddressablesService = addressablesService;
+            AddressablesService = new AddressablesService();
         }
     }
 }
