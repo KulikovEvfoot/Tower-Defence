@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     internal class StageManager
     {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Common;
+using Launcher;
 using TowerDefence.Installer.Stage;
-using TowerDefence.Launcher;
 using Zenject;
 
 namespace TowerDefence.Installer.Launcher
@@ -12,25 +11,28 @@ namespace TowerDefence.Installer.Launcher
     public class CoreSceneLauncher : IInitializable
     {
         private readonly List<IControlEntity> m_ControlEntities;
-        private readonly ICoroutineRunner m_CoroutineRunner;
+        
+        public bool IsLaunched { get; private set; }
 
         [Inject]
-        public CoreSceneLauncher(List<IControlEntity> controlEntities, ICoroutineRunner coroutineRunner)
+        public CoreSceneLauncher(List<IControlEntity> controlEntities)
         {
             m_ControlEntities = controlEntities;
-            m_CoroutineRunner = coroutineRunner;
         }
         
-        public void Initialize()
+        public async void Initialize()
         {
             var launchWizard = new LaunchWizard();
             
             launchWizard.AddControlEntities(m_ControlEntities);
             
             launchWizard
-                .AddStage(new LaunchStage(nameof(InitStage)));
+                .AddStage(new LaunchStage(nameof(ConfigsLoadingStage)))
+                .AddStage(new LaunchStage(nameof(ServicesInitStage)));
 
-            m_CoroutineRunner.StartCoroutine(launchWizard.Run());
+            await launchWizard.Run();
+
+            IsLaunched = true;
         }
     }
 }

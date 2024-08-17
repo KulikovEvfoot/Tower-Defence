@@ -2,13 +2,13 @@ namespace TowerDefence.Core.Runtime.Command.CreateTower
 {
     public class CreateTowerArgs : IGameActionArgs
     {
+        public readonly string TowerName;
         public readonly int PointId;
-        public readonly string TowerId;
 
-        public CreateTowerArgs(int pointId, string towerId)
+        public CreateTowerArgs(int pointId, string towerName)
         {
             PointId = pointId;
-            TowerId = towerId;
+            TowerName = towerName;
         }
     }
 }

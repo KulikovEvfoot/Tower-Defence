@@ -1,6 +1,6 @@
 using System;
 
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     public readonly struct LoadingResult
     {

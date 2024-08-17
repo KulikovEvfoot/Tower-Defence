@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     public interface IStage
     {

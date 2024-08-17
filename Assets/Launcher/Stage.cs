@@ -1,6 +1,6 @@
 using System;
 
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class Stage : Attribute

@@ -1,4 +1,5 @@
 using Common;
+using Launcher;
 using TowerDefence.Core.Runtime;
 using TowerDefence.InputSystem;
 using TowerDefence.Installer.Camera;
@@ -11,6 +12,7 @@ namespace TowerDefence.Installer
     public class CoreSceneInstaller : MonoInstaller
     {
         [SerializeField] private CameraProvider m_CameraProvider;
+        [SerializeField] private UpdateMaster m_UpdateMaster;
         [SerializeField] private CoroutineRunner m_CoroutineRunner;
         
         public override void InstallBindings()
@@ -22,11 +24,19 @@ namespace TowerDefence.Installer
             Container.Bind<CameraProvider>().FromInstance(m_CameraProvider).AsSingle().NonLazy();
             Container.Bind<CameraController>().AsSingle().NonLazy();
             
-            Container.Bind<TowerFactoryProvider>().AsSingle().NonLazy();
+            Container.Bind<LevelController>().AsSingle().NonLazy();
+            Container.Bind<IControlEntity>().To<LevelController>().FromResolve().NonLazy();
+
+            Container.Bind<SceneLocationController>().AsSingle().NonLazy();
+            Container.Bind<IControlEntity>().To<SceneLocationController>().FromResolve().NonLazy();
+            
+            Container.Bind<TowersController>().AsSingle().NonLazy();
+            Container.Bind<IControlEntity>().To<TowersController>().FromResolve().NonLazy();
             
             Container.Bind<AddressablesController>().AsSingle().NonLazy();
             
             Container.Bind<ICoroutineRunner>().FromInstance(m_CoroutineRunner).AsSingle().NonLazy();
+            Container.Bind<UpdateMaster>().FromInstance(m_UpdateMaster).AsSingle().NonLazy();
             
             Container.Bind<IInitializable>().To<CoreSceneLauncher>().AsSingle().NonLazy();
         }

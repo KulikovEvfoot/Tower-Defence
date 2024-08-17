@@ -1,5 +1,4 @@
 using TowerDefence.Core.Runtime.AddressablesSystem;
-using Zenject;
 
 namespace TowerDefence.Installer
 {
@@ -7,7 +6,6 @@ namespace TowerDefence.Installer
     {
         public AddressablesService AddressablesService { get; }
 
-        [Inject]
         public AddressablesController()
         {
             AddressablesService = new AddressablesService();
