@@ -1,4 +1,4 @@
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     public interface IControlEntity
     {

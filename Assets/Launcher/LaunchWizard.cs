@@ -1,9 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     public class LaunchWizard
     {
@@ -21,7 +22,7 @@ namespace TowerDefence.Launcher
             m_ControlEntityManager.AddAControlEntities(controlEntities);
         }
 
-        public IEnumerator Run()
+        public async UniTask Run()
         {
             var meta = m_ControlEntityManager.GetEntityMeta();
             m_StageManager.Configure(meta);
@@ -29,18 +30,16 @@ namespace TowerDefence.Launcher
 
             foreach (var stage in stages)
             {
-                yield return LoadResources(stage);
+                await LoadResources(stage);
             }
             
             foreach (var stage in stages)
             {
-                yield return Launch(stage);
+                await Launch(stage);
             }
-            
-            yield return null;
         }
 
-        private IEnumerator LoadResources(IStage stage)
+        private async UniTask LoadResources(IStage stage)
         {
             var controlEntities = stage.GetEntities();
             var awaitAsyncCompletion = new List<Func<bool>>();
@@ -56,23 +55,27 @@ namespace TowerDefence.Launcher
 
             if (!stage.IsAsync)
             {
-                yield break;
+                return;
             }
             
-            //пока так
-            while (awaitAsyncCompletion.All(a => a.Invoke()))
+            foreach (var func in awaitAsyncCompletion)
             {
-                yield return null;
+                if (func.Invoke())
+                {
+                    continue;
+                }
+
+                await UniTask.WaitUntil(func);
             }
         }
 
-        private IEnumerator Launch(IStage stage)
+        private async UniTask Launch(IStage stage)
         {
             var controlEntities = stage.GetEntities();
             foreach (var entity in controlEntities)
             {
                 entity.Launch();
-                yield return null;
+                await UniTask.Yield();
             }
         }
     }

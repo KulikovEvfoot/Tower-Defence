@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TowerDefence.Launcher
+namespace Launcher
 {
     public class LaunchStage : IStage
     {
