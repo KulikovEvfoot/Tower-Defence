@@ -1,6 +1,9 @@
 using Common;
 using Launcher;
 using TowerDefence.Core.Runtime;
+using TowerDefence.Core.Runtime.AddressablesSystem;
+using TowerDefence.Core.Runtime.Towers.Place.Runtime;
+using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
 using TowerDefence.InputSystem;
 using TowerDefence.Installer.Camera;
 using TowerDefence.Installer.Launcher;
@@ -29,16 +32,24 @@ namespace TowerDefence.Installer
 
             Container.Bind<SceneLocationController>().AsSingle().NonLazy();
             Container.Bind<IControlEntity>().To<SceneLocationController>().FromResolve().NonLazy();
+
+            Container.Bind<AddressablesService>().AsSingle().NonLazy();
+            Container.Bind<UpdateMaster>().FromInstance(m_UpdateMaster).AsSingle().NonLazy();
+            
+            BindTowers();
+            
+            Container.Bind<ICoroutineRunner>().FromInstance(m_CoroutineRunner).AsSingle().NonLazy();
+            
+            Container.Bind<IInitializable>().To<CoreSceneLauncher>().AsSingle().NonLazy();
+        }
+        
+        private void BindTowers()
+        {
+            Container.Bind<ITowerService>().To<TowerPlaceService>().AsSingle().NonLazy();
+            Container.Bind<ITowerService>().To<RifleTowerService>().AsSingle().NonLazy();
             
             Container.Bind<TowersController>().AsSingle().NonLazy();
             Container.Bind<IControlEntity>().To<TowersController>().FromResolve().NonLazy();
-            
-            Container.Bind<AddressablesController>().AsSingle().NonLazy();
-            
-            Container.Bind<ICoroutineRunner>().FromInstance(m_CoroutineRunner).AsSingle().NonLazy();
-            Container.Bind<UpdateMaster>().FromInstance(m_UpdateMaster).AsSingle().NonLazy();
-            
-            Container.Bind<IInitializable>().To<CoreSceneLauncher>().AsSingle().NonLazy();
         }
     }
 }

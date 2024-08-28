@@ -1,9 +1,10 @@
 using TowerDefence.Core.Runtime.Config;
 using TowerDefence.Core.Runtime.Towers;
+using TowerDefence.Core.Runtime.Towers.Place.Runtime;
+using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
 
 namespace TowerDefence.Core.Runtime.Location
 {
-    //создать точки
     public class SceneLocationService : ISceneLocationService
     {
         private readonly ILocationBalanceFacade m_LocationBalanceFacade;
@@ -11,16 +12,18 @@ namespace TowerDefence.Core.Runtime.Location
         public SceneLocationService(ILocationBalanceFacade locationBalanceFacade, ITowerServices towerServices)
         {
             m_LocationBalanceFacade = locationBalanceFacade;
-            var preset = locationBalanceFacade.GetLevelPreset();
-            foreach (var pointId in preset)
+            var towerWaypoints = locationBalanceFacade.GetTowerWaypoints();
+            foreach (var towerWaypoint in towerWaypoints)
             {
-                var factoryResult = towerServices.GetFactory(TowersEnvironment.TowerPlace);
+                var factoryResult = towerServices.GetFactory(RifleTowerEnvironment.Key);
+                // var factoryResult = towerServices.GetFactory(TowerPlaceEnvironment.Key);
                 if (!factoryResult.IsExist)
                 {
                     continue;
                 }
 
-                var towerResult = factoryResult.Object.Create(pointId);
+                var towerResult = factoryResult.Object.Create(towerWaypoint.PointId, new TowerLevel(RifleTowerEnvironment.CrossbowSubtype, 0));
+                // var towerResult = factoryResult.Object.Create(towerWaypoint.PointId, TowerLevel.Empty);
             }
         }
     }

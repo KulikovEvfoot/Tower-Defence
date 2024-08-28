@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using Launcher;
 using TowerDefence.Core.Runtime.AddressablesSystem;
 using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Config.External;
-using TowerDefence.Core.Runtime.Towers;
 using TowerDefence.Core.Runtime.Towers.Config;
 using TowerDefence.Installer.Stage;
 using UnityEngine;
@@ -15,9 +11,7 @@ namespace TowerDefence.Installer
     [global::Launcher.Stage(typeof(ConfigsLoadingStage), 0)]
     public class LevelController : IControlEntity
     {
-        private const string m_SceneConfigTestAddress = "SceneLocationConfig";
-        private const string m_TowerPlaceConfigAddress = "TowerPlaceConfig";
-        private const string m_RifleTowerConfigAddress = "RifleTowerConfig";
+        private const string m_SceneLocationSettings_1 = "SceneLocationSettings_1";
         
         private readonly AddressablesService m_AddressableService;
         private LocationBalanceFacade m_LocationBalanceFacade;
@@ -25,26 +19,19 @@ namespace TowerDefence.Installer
         public ILocationBalanceFacade LocationBalanceFacade => m_LocationBalanceFacade;
 
         [Inject]
-        public LevelController(AddressablesController addressablesController)
+        public LevelController(AddressablesService addressablesService)
         {
-            m_AddressableService = addressablesController.AddressablesService;
+            m_AddressableService = addressablesService;
         }
 
         public LoadingResult LoadResources()
         {
-            var sceneConfig = m_AddressableService.LoadSync<SceneLocationConfig>(m_SceneConfigTestAddress);
-            var externalLocationConfig = new ExternalLocationConfig();
-            var externalTowerConfig = new ExternalTowersConfig(
-                new Dictionary<string, string> 
-                {
-                    {TowersEnvironment.TowerPlace, m_TowerPlaceConfigAddress},
-                    {TowersEnvironment.RifleTower, m_RifleTowerConfigAddress}
-                });
+            var sceneConfigGo = m_AddressableService.LoadSync<GameObject>(m_SceneLocationSettings_1);
+            var sceneConfig = sceneConfigGo.GetComponent<SceneLocationSettings>();
             
-            m_LocationBalanceFacade = new LocationBalanceFacade(m_AddressableService, sceneConfig, externalLocationConfig, externalTowerConfig);
+            m_LocationBalanceFacade = new LocationBalanceFacade(sceneConfig);
             
-            var task = m_LocationBalanceFacade.Preload();
-            return new LoadingResult(true, () => task.Status == UniTaskStatus.Succeeded);
+            return LoadingResult.Sync;
         }
 
         public void Launch()
