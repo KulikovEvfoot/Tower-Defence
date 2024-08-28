@@ -24,17 +24,9 @@ namespace TowerDefence.Core.Runtime.Towers
         
         public async UniTask Preload()
         {
-            var availableTowers = m_LocationBalanceFacade.GetAvailableTowers();
-            
             var toPreloadTasks = new List<UniTask>();
-            foreach (var towerName in availableTowers)
+            foreach (var service in m_TowerServices.Values)
             {
-                if (!m_TowerServices.TryGetValue(towerName, out var service))
-                {
-                    m_Logger.Log(LogType.Error, $"Can't load tower with name = {towerName}");
-                    continue;
-                }
-
                 var task = service.Preload();
                 toPreloadTasks.Add(task);
             }
@@ -46,7 +38,7 @@ namespace TowerDefence.Core.Runtime.Towers
         {
             foreach (var service in m_TowerServices.Values)
             {
-                service.Init();
+                service.Init(m_LocationBalanceFacade);
             }
         }
         

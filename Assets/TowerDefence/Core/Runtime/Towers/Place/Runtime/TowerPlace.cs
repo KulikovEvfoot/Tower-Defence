@@ -1,54 +1,58 @@
 using System;
 using Common;
 using Cysharp.Threading.Tasks;
+using TowerDefence.Core.Runtime.AddressablesSystem;
+using TowerDefence.Core.Runtime.Config;
 using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
+using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Balance;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TowerDefence.Core.Runtime.Towers.Place.Runtime
 {
-    public class TowerPlaceFactory : ITowerFactory
-    {
-        private readonly TowerPlaceView m_TowerPlaceViewAsset;
-
-        public TowerPlaceFactory(TowerPlaceView towerPlaceViewAsset)
-        {
-            m_TowerPlaceViewAsset = towerPlaceViewAsset;
-        }
-
-        public Result<ITower> Create(int pointId)
-        {
-            Object.Instantiate(m_TowerPlaceViewAsset);
-            
-            var t = new TowerPlace();
-            return Result<ITower>.Success(t);
-        }
-    }
-    
     public class TowerPlaceService : ITowerService
     {
-        private readonly TowerPreloader m_TowerPreloader;
         private readonly ILogger m_Logger;
+        private readonly AddressablesService m_AddressablesService;
         
-        
-        private TowerPlaceView m_TowerPlaceViewAsset;
         private TowerPlaceFactory m_TowerPlaceFactory;
+        
+        private GameObject m_TowerPlaceAsset;
+
+        public string Key => TowerPlaceEnvironment.Key;
+
+        public TowerPlaceService(AddressablesService addressablesService)
+        {
+            m_AddressablesService = addressablesService;
+        }
 
         public async UniTask Preload()
         {
-            var viewLoadingResult = await m_TowerPreloader.Load<TowerPlaceView>(TowersEnvironment.TowerPlace);
-            if (!viewLoadingResult.IsExist)
+            var towerPlaceBalanceAsset = await m_AddressablesService.LoadAsync<TextAsset>("balance_tower_place");
+            if (towerPlaceBalanceAsset == null)
             {
                 m_Logger.Log(LogType.Error, $"Error when loading {nameof(TowerPlaceView)}");
                 return;
             }
-
-            m_TowerPlaceViewAsset = viewLoadingResult.Object;
+            
+            var configResult = Serializer.Deserialize<TowerPlaceConfig>(towerPlaceBalanceAsset.text);
+            if (!configResult.IsExist)
+            {
+                m_Logger.Log(LogType.Error, $"Error when loading {nameof(TowerPlaceView)}");
+                return;
+            }
+            
+            var towerPlaceBalance = configResult.Object;
+            m_TowerPlaceAsset = await m_AddressablesService.LoadAsync<GameObject>(towerPlaceBalance.ViewAddress);
+            if (m_TowerPlaceAsset == null)
+            {
+                m_Logger.Log(LogType.Error, $"Error when loading {nameof(TowerPlaceView)}");
+                return;
+            }
         }
 
-        public void Init()
+        public void Init(ILocationBalanceFacade locationBalanceFacade)
         {
-            m_TowerPlaceFactory = new TowerPlaceFactory(m_TowerPlaceViewAsset);
+            m_TowerPlaceFactory = new TowerPlaceFactory(m_TowerPlaceAsset, locationBalanceFacade);
         }
 
         public ITowerFactory GetFactory()

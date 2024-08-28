@@ -13,8 +13,9 @@ namespace TowerDefence.Installer
     {
         private readonly LevelController m_LevelController;
         private readonly TowersController m_TowersController;
-        public ISceneLocationService SceneLocationService { get; private set; }
-
+        
+        private SceneLocationService m_SceneLocationService;
+        
         [Inject]
         public SceneLocationController(LevelController levelController, TowersController towersController)
         {
@@ -29,7 +30,7 @@ namespace TowerDefence.Installer
 
         public void Launch()
         {
-            SceneLocationService = new SceneLocationService(m_LevelController.LocationBalanceFacade, m_TowersController.TowerServices);
+            m_SceneLocationService = new SceneLocationService(m_LevelController.LocationBalanceFacade, m_TowersController.TowerServices);
         }
     }
 }
