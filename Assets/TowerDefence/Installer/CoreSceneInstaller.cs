@@ -2,6 +2,7 @@ using Common;
 using Launcher;
 using TowerDefence.Core.Runtime;
 using TowerDefence.Core.Runtime.AddressablesSystem;
+using TowerDefence.Core.Runtime.Config;
 using TowerDefence.Core.Runtime.Towers.Place.Runtime;
 using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
 using TowerDefence.InputSystem;
@@ -27,14 +28,19 @@ namespace TowerDefence.Installer
             Container.Bind<CameraProvider>().FromInstance(m_CameraProvider).AsSingle().NonLazy();
             Container.Bind<CameraController>().AsSingle().NonLazy();
             
+            Container.Bind<AddressablesService>().AsSingle().NonLazy();
+            Container.Bind<UpdateMaster>().FromInstance(m_UpdateMaster).AsSingle().NonLazy();
+            
+            Container.Bind<IGameEntities>().To<GameEntities>().AsSingle().NonLazy();
+            
             Container.Bind<LevelController>().AsSingle().NonLazy();
             Container.Bind<IControlEntity>().To<LevelController>().FromResolve().NonLazy();
 
+            Container.Bind<LocationBalanceFacade>().AsSingle().NonLazy();
+            Container.Bind<ILocationBalanceFacade>().To<LocationBalanceFacade>().FromResolve().NonLazy();
+            
             Container.Bind<SceneLocationController>().AsSingle().NonLazy();
             Container.Bind<IControlEntity>().To<SceneLocationController>().FromResolve().NonLazy();
-
-            Container.Bind<AddressablesService>().AsSingle().NonLazy();
-            Container.Bind<UpdateMaster>().FromInstance(m_UpdateMaster).AsSingle().NonLazy();
             
             BindTowers();
             
@@ -50,6 +56,13 @@ namespace TowerDefence.Installer
             
             Container.Bind<TowersController>().AsSingle().NonLazy();
             Container.Bind<IControlEntity>().To<TowersController>().FromResolve().NonLazy();
+        }
+
+        
+        [SerializeField] private TestSpawner m_TestSpawner;
+        private void Test()
+        {
+            Container.Bind<TestSpawner>().FromInstance(m_TestSpawner).AsSingle().NonLazy();
         }
     }
 }

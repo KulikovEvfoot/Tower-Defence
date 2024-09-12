@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-// [assembly:InternalsVisibleTo("TowerDefence.Towers.Rifle.Tests")]
+[assembly:InternalsVisibleTo("TowerDefence.Towers.Rifle.Tests")]
 namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
 {
     internal class CrossbowShotSimulation

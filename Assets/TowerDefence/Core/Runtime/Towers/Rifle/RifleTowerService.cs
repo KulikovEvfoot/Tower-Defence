@@ -12,6 +12,8 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
     public class RifleTowerService : ITowerService
     {
         private readonly AddressablesService m_AddressablesService;
+        private readonly ILocationBalanceFacade m_LocationBalanceFacade;
+        private readonly IGameEntities m_GameEntities;
         private readonly UpdateMaster m_UpdateMaster;
         private readonly ILogger m_Logger;
         
@@ -22,11 +24,15 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         
         public RifleTowerService(
             AddressablesService addressablesService,
+            ILocationBalanceFacade locationBalanceFacade,
+            IGameEntities gameEntities,
             UpdateMaster updateMaster)
         {
             m_Logger = Debug.unityLogger.WithPrefix($"[{nameof(RifleTowerService)}]: ");
 
             m_AddressablesService = addressablesService;
+            m_LocationBalanceFacade = locationBalanceFacade;
+            m_GameEntities = gameEntities;
             m_UpdateMaster = updateMaster;
         }
 
@@ -58,13 +64,14 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             }
         }
 
-        public void Init(ILocationBalanceFacade locationBalanceFacade)
+        public void Init()
         {
             var towerFactoriesMap = new Dictionary<string, ITowerFactory>();
             
             var crossbowFactory = new CrossbowTowerFactory(
                 m_CrossbowTowerViewAsset,
-                locationBalanceFacade,
+                m_LocationBalanceFacade,
+                m_GameEntities,
                 m_UpdateMaster);
 
             towerFactoriesMap.Add(RifleTowerEnvironment.CrossbowSubtype, crossbowFactory);

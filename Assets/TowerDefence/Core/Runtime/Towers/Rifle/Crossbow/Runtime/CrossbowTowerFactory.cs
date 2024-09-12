@@ -9,16 +9,19 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
     {
         private readonly GameObject m_Asset;
         private readonly ILocationBalanceFacade m_LocationBalanceFacade;
+        private readonly IGameEntities m_GameEntities;
         private readonly UpdateMaster m_UpdateMaster;
 
         public CrossbowTowerFactory(
             GameObject asset,
             ILocationBalanceFacade locationBalanceFacade,
+            IGameEntities gameEntities,
             UpdateMaster updateMaster)
         {
             m_Asset = asset;
             m_LocationBalanceFacade = locationBalanceFacade;
             m_UpdateMaster = updateMaster;
+            m_GameEntities = gameEntities;
         }
 
         public Result<ITower> Create(int pointId, TowerLevel towerLevel)
@@ -36,10 +39,14 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
                 return Result<ITower>.Fail();
             }
             
-            var rifleAmmoViewFactory = new CrossbowAmmoFactory(view.CrossbowAmmoTemplate);
-            var rifleAmmoSpawner = new CrossbowAmmoSpawner(rifleAmmoViewFactory);
-            var rifleWeapon = new CrossbowWeapon(rifleAmmoSpawner, view.AmmoAnchorPoint, m_UpdateMaster);
-            var rifleTower = new RifleTower(pointId, view, rifleWeapon);
+            view.Init();
+            
+            var crossbowAmmoFactory = new CrossbowAmmoFactory(view.CrossbowAmmoTemplate);
+            var crossbowAmmoSpawner = new CrossbowAmmoSpawner(crossbowAmmoFactory);
+            var crossbowWeapon = new CrossbowWeapon(crossbowAmmoSpawner, view.AmmoAnchorPoint, m_UpdateMaster);
+            var towerLogic = new CrossbowTowerLogic(view.InteractionObject, crossbowWeapon, m_GameEntities);
+            var rifleTower = new RifleTower(pointId, view, towerLogic);
+            
             return Result<ITower>.Success(rifleTower);
         }
     }

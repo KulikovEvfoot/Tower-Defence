@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CameraProvider: {fileID: 901006097}
-  m_UpdateMaster: {fileID: 0}
+  m_UpdateMaster: {fileID: 580498964}
   m_CoroutineRunner: {fileID: 238882607}
 --- !u!1 &580498962
 GameObject:

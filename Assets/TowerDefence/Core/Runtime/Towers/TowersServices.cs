@@ -38,7 +38,7 @@ namespace TowerDefence.Core.Runtime.Towers
         {
             foreach (var service in m_TowerServices.Values)
             {
-                service.Init(m_LocationBalanceFacade);
+                service.Init();
             }
         }
         
