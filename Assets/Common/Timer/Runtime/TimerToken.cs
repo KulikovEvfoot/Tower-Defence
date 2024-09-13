@@ -4,16 +4,13 @@ namespace Services.Timer.Runtime
 {
     public class TimerToken : IDisposable
     {
-        private readonly IGlobalTimer m_Timer;
+        private readonly ITimerRunner m_Runner;
         
         private bool m_IsDisposed;
         
-        public string Mode { get; }
-
-        public TimerToken(IGlobalTimer timer, string mode)
+        internal TimerToken(ITimerRunner runner)
         {
-            m_Timer = timer;
-            Mode = mode;
+            m_Runner = runner;
         }
 
         public void Dispose()
@@ -24,7 +21,7 @@ namespace Services.Timer.Runtime
             }
 
             m_IsDisposed = true;
-            m_Timer.Detach(this);
+            m_Runner.Detach(this);
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Services.Timer.Runtime
 {
     internal interface ITimerRunner : IDisposable
     {
-        void Attach(TimerToken token, TimerArgs args);
+        TimerToken Attach(TimerArgs args);
         void Detach(TimerToken token);
         void Tick();
     }

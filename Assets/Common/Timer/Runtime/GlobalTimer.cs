@@ -25,27 +25,22 @@ namespace Services.Timer.Runtime
             m_TimerRoutine = m_TimerCoroutineRunner.StartCoroutine(Run());
         }
         
-        public TimerToken Attach(TimerNode node)
+        public TimerToken Begin(TimerNode node)
         {
             var key = node.OnlyPlayMode 
                 ? TimerEnvironment.OnlyPlayMode 
                 : TimerEnvironment.SinceStartupMode;
+
+            var timerArgs = new TimerArgs(
+                Time.realtimeSinceStartup,
+                node.Duration,
+                node.TimerTickObserver,
+                node.TimerCompleteObserver);
             
-            var token = new TimerToken(this, key);
-            
-            m_TimerRunners[key].Attach(token, new TimerArgs(
-                Time.realtimeSinceStartup, 
-                node.Duration, 
-                node.TimerObserver));
-            
+            var token = m_TimerRunners[key].Attach(timerArgs);
             return token;
         }
-
-        public void Detach(TimerToken token)
-        {
-            m_TimerRunners[token.Mode]?.Detach(token);
-        }
-
+        
         public void Stop()
         {
             if (m_TimerCoroutineRunner != null && m_TimerRoutine != null)
@@ -76,9 +71,9 @@ namespace Services.Timer.Runtime
 
         private void Tick()
         {
-            foreach (var timerRunner in m_TimerRunners.Values)
+            foreach (var pair in m_TimerRunners)
             {
-                timerRunner.Tick();
+                pair.Value.Tick();
             }
         }
 

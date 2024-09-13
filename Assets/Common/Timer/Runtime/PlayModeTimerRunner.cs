@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Services.Timer.Runtime
@@ -12,11 +11,13 @@ namespace Services.Timer.Runtime
 
         private readonly Dictionary<TimerToken, TimerArgs> m_Args = new();
         private readonly Dictionary<TimerToken, float> m_PauseDelay = new();
-
-        public void Attach(TimerToken token, TimerArgs args)
+        
+        public TimerToken Attach(TimerArgs args)
         {
+            var token = new TimerToken(this);
             m_Args.TryAdd(token, args);
             m_PauseDelay.TryAdd(token, 0);
+            return token;
         }
 
         public void Detach(TimerToken token)
@@ -40,12 +41,12 @@ namespace Services.Timer.Runtime
 
                 if (timeLeft <= float.Epsilon)
                 {
-                    args.TimerObserver.Tick(TimeSpan.Zero);
-                    args.TimerObserver.OnTimerComplete();
+                    args.TimerTickObserver.Tick(TimeSpan.Zero);
+                    args.TimerCompleteObserver.OnTimerComplete();
                     return;
                 }
             
-                args.TimerObserver.Tick(TimeSpan.FromSeconds(timeLeft));
+                args.TimerTickObserver.Tick(TimeSpan.FromSeconds(timeLeft));
             }
         }
 
@@ -67,7 +68,7 @@ namespace Services.Timer.Runtime
             {
                 var pauseDuration = Time.realtimeSinceStartup - m_PauseTime;
 
-                var temp = m_PauseDelay.Keys.ToList();
+                var temp = new List<TimerToken>(m_PauseDelay.Keys);
                 foreach (var token in temp)
                 {
                     m_PauseDelay[token] += pauseDuration;

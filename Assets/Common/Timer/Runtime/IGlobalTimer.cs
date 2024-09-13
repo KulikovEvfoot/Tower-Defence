@@ -2,8 +2,9 @@
 
 namespace Services.Timer.Runtime
 {
-    public interface IGlobalTimer : ITimerAgitator, IDisposable
+    public interface IGlobalTimer : IDisposable
     {
+        TimerToken Begin(TimerNode node);
         void Pause(bool isPause);
     }
 }

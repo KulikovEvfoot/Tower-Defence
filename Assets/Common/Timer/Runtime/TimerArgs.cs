@@ -4,16 +4,19 @@ namespace Services.Timer.Runtime
     {
         public float StartTimeSinceStartup { get; }
         public float Duration { get; }
-        public ITimerObserver TimerObserver { get; }
+        public ITimerTickObserver TimerTickObserver { get; }
+        public ITimerCompleteObserver TimerCompleteObserver { get; }
 
         public TimerArgs(
             float startTimeSinceStartup, 
             float duration, 
-            ITimerObserver timerObserver)
+            ITimerTickObserver timerTickObserver,
+            ITimerCompleteObserver timerCompleteObserver)
         {
             StartTimeSinceStartup = startTimeSinceStartup;
             Duration = duration;
-            TimerObserver = timerObserver;
+            TimerTickObserver = timerTickObserver;
+            TimerCompleteObserver = timerCompleteObserver;
         }
     }
 }

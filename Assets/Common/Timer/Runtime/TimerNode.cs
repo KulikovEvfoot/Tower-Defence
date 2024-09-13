@@ -2,16 +2,40 @@ namespace Services.Timer.Runtime
 {
     public class TimerNode
     {
-        public ITimerObserver TimerObserver { get; }
         public float Duration { get; }
+        public ITimerTickObserver TimerTickObserver { get; }
+        public ITimerCompleteObserver TimerCompleteObserver { get; }
         public bool OnlyPlayMode { get; }
         
         public TimerNode(
-            ITimerObserver timerObserver,
             float duration, 
+            ITimerObserver timerObserver,
             bool onlyPlayMode = false)
         {
-            TimerObserver = timerObserver;
+            TimerTickObserver = timerObserver;
+            TimerCompleteObserver = timerObserver;
+            Duration = duration;
+            OnlyPlayMode = onlyPlayMode;
+        }
+        
+        public TimerNode(
+            float duration, 
+            ITimerTickObserver timerTickObserver,
+            bool onlyPlayMode = false)
+        {
+            TimerTickObserver = timerTickObserver;
+            TimerCompleteObserver = new StubTimerCompleteObserver();
+            Duration = duration;
+            OnlyPlayMode = onlyPlayMode;
+        }
+        
+        public TimerNode(
+            float duration, 
+            ITimerCompleteObserver timerCompleteObserver,
+            bool onlyPlayMode = false)
+        {
+            TimerTickObserver = new StubTimerTickObserver();
+            TimerCompleteObserver = timerCompleteObserver;
             Duration = duration;
             OnlyPlayMode = onlyPlayMode;
         }
