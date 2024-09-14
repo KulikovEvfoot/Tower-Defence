@@ -4,7 +4,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
 {
     public interface IGameObjectEntity
     {
-        int Id { get; }
+        int EntityId { get; }
         GameObject GameObject { get; }
     }
 }

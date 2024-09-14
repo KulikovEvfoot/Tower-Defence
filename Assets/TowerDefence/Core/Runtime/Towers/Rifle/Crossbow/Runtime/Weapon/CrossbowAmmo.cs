@@ -2,10 +2,12 @@ using UnityEngine;
 
 namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
 {
-    public class CrossbowAmmo : IAmmo
+    public class CrossbowAmmo : IGameEntity, IAmmo
     {
         private readonly CrossbowAmmoView m_View;
 
+        public int EntityId { get; private set; }
+        
         public Vector3 Position
         {
             get => m_View.Position;
@@ -21,6 +23,11 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
         internal CrossbowAmmo(CrossbowAmmoView view)
         {
             m_View = view;
+        }
+
+        public void SetId(int id)
+        {
+            EntityId = id;
         }
 
         public void SetActive(bool isActive)

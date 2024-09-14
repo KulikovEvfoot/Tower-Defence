@@ -11,6 +11,8 @@ namespace Services.Timer.Runtime
 
         private readonly Dictionary<TimerToken, TimerArgs> m_Args = new();
         private readonly Dictionary<TimerToken, float> m_PauseDelay = new();
+
+        private readonly List<TimerToken> m_ToDetach = new();
         
         public TimerToken Attach(TimerArgs args)
         {
@@ -33,8 +35,9 @@ namespace Services.Timer.Runtime
                 return;
             }
 
-            foreach (var token in m_Args.Keys)
+            foreach (var pair in m_Args)
             {
+                var token = pair.Key;
                 var args = m_Args[token];
                 var pastTime  = args.StartTimeSinceStartup - Time.realtimeSinceStartup;
                 var timeLeft = pastTime + args.Duration + m_PauseDelay[token];
@@ -43,10 +46,21 @@ namespace Services.Timer.Runtime
                 {
                     args.TimerTickObserver.Tick(TimeSpan.Zero);
                     args.TimerCompleteObserver.OnTimerComplete();
+                    
+                    m_ToDetach.Add(token);
                     return;
                 }
             
                 args.TimerTickObserver.Tick(TimeSpan.FromSeconds(timeLeft));
+            }
+
+            var toDetachCount = m_ToDetach.Count;
+            if (toDetachCount > 0)
+            {
+                for (int i = toDetachCount - 1; i < toDetachCount; i--)
+                {
+                    m_ToDetach.RemoveAt(i);
+                }
             }
         }
 

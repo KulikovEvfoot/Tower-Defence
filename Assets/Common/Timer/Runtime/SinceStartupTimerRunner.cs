@@ -7,7 +7,8 @@ namespace Services.Timer.Runtime
     internal class SinceStartupTimerRunner : ITimerRunner
     {
         private readonly Dictionary<TimerToken, TimerArgs> m_Args = new();
-
+        private readonly List<TimerToken> m_ToDetach = new();
+        
         public TimerToken Attach(TimerArgs args)
         {
             var token = new TimerToken(this);
@@ -33,10 +34,21 @@ namespace Services.Timer.Runtime
                 {
                     args.TimerTickObserver.Tick(TimeSpan.Zero);
                     args.TimerCompleteObserver.OnTimerComplete();
+                    
+                    m_ToDetach.Add(token);
                     return;
                 }
             
                 args.TimerTickObserver.Tick(TimeSpan.FromSeconds(timeLeft));
+            }
+
+            var toDetachCount = m_ToDetach.Count;
+            if (toDetachCount > 0)
+            {
+                for (int i = toDetachCount - 1; i < toDetachCount; i--)
+                {
+                    m_ToDetach.RemoveAt(i);
+                }
             }
         }
 

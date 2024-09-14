@@ -10,7 +10,7 @@ namespace Services.Timer.Runtime
         public TimerNode(
             float duration, 
             ITimerObserver timerObserver,
-            bool onlyPlayMode = false)
+            bool onlyPlayMode = true)
         {
             TimerTickObserver = timerObserver;
             TimerCompleteObserver = timerObserver;
@@ -21,7 +21,7 @@ namespace Services.Timer.Runtime
         public TimerNode(
             float duration, 
             ITimerTickObserver timerTickObserver,
-            bool onlyPlayMode = false)
+            bool onlyPlayMode = true)
         {
             TimerTickObserver = timerTickObserver;
             TimerCompleteObserver = new StubTimerCompleteObserver();
@@ -32,7 +32,7 @@ namespace Services.Timer.Runtime
         public TimerNode(
             float duration, 
             ITimerCompleteObserver timerCompleteObserver,
-            bool onlyPlayMode = false)
+            bool onlyPlayMode = true)
         {
             TimerTickObserver = new StubTimerTickObserver();
             TimerCompleteObserver = timerCompleteObserver;

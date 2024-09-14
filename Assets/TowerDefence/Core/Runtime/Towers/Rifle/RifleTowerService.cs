@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Common;
 using Common.Logger;
 using Cysharp.Threading.Tasks;
+using Services.Timer.Runtime;
 using TowerDefence.Core.Runtime.AddressablesSystem;
 using TowerDefence.Core.Runtime.Config;
 using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Balance;
@@ -15,6 +16,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         private readonly ILocationBalanceFacade m_LocationBalanceFacade;
         private readonly IGameEntities m_GameEntities;
         private readonly UpdateMaster m_UpdateMaster;
+        private readonly IGlobalTimer m_GlobalTimer;
         private readonly ILogger m_Logger;
         
         private TowerFactoryProvider m_TowerFactoryProvider;
@@ -26,6 +28,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             AddressablesService addressablesService,
             ILocationBalanceFacade locationBalanceFacade,
             IGameEntities gameEntities,
+            IGlobalTimer globalTimer,
             UpdateMaster updateMaster)
         {
             m_Logger = Debug.unityLogger.WithPrefix($"[{nameof(RifleTowerService)}]: ");
@@ -33,6 +36,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             m_AddressablesService = addressablesService;
             m_LocationBalanceFacade = locationBalanceFacade;
             m_GameEntities = gameEntities;
+            m_GlobalTimer = globalTimer;
             m_UpdateMaster = updateMaster;
         }
 
@@ -72,6 +76,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
                 m_CrossbowTowerViewAsset,
                 m_LocationBalanceFacade,
                 m_GameEntities,
+                m_GlobalTimer,
                 m_UpdateMaster);
 
             towerFactoriesMap.Add(RifleTowerEnvironment.CrossbowSubtype, crossbowFactory);

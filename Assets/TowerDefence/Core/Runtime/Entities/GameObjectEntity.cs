@@ -7,12 +7,12 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         //its only to show. need readonly attribute
         [SerializeField] private int m_Id;
         
-        public int Id { get; private set; }
+        public int EntityId { get; private set; }
         public GameObject GameObject => gameObject;
 
         public void Set(int id)
         {
-            Id = id;
+            EntityId = id;
             m_Id = id;
         }
     }

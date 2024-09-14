@@ -1,6 +1,12 @@
 ﻿namespace Common
 {
-    public class IdFactory
+
+    public interface IIdFactory
+    {
+        int CreateNext();
+    }
+    
+    public class IdFactory : IIdFactory
     {
         private int m_ItemId = -1;
 

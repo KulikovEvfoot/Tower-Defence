@@ -6,12 +6,25 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
     public class GameEntities : IGameEntities
     {
         private readonly Dictionary<int, IGameEntity> m_Entities = new();
-
-        public IReadOnlyDictionary<int, IGameEntity> Entities => m_Entities;
+        private readonly IIdFactory m_IdFactory;
         
-        public void Add(int id, IGameEntity entity)
+        public IReadOnlyDictionary<int, IGameEntity> Entities => m_Entities;
+
+        public GameEntities(IIdFactory idFactory)
         {
+            m_IdFactory = idFactory;
+        }
+
+        public int Add(IGameEntity entity)
+        {
+            var id = m_IdFactory.CreateNext();
             m_Entities.TryAdd(id, entity);
+            return id;
+        }
+
+        public int Add(IGameObjectEntity entity)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Remove(int id)

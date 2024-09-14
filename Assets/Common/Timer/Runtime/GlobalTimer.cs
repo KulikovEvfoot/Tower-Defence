@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Common;
 using UnityEngine;
 
 namespace Services.Timer.Runtime
 {
-    public class GlobalTimer : IGlobalTimer
+    public class GlobalTimer : IGlobalTimer, IDisposable
     {
         private readonly WaitForSecondsRealtime m_TickInterval = new WaitForSecondsRealtime(0.1f);
         private readonly Dictionary<string, ITimerRunner> m_TimerRunners;
         private readonly ICoroutineRunner m_TimerCoroutineRunner;
-        private readonly Coroutine m_TimerRoutine;
+        
+        private Coroutine m_TimerRoutine;
         
         public GlobalTimer(ICoroutineRunner timerCoroutineRunner)
         {
@@ -22,11 +24,13 @@ namespace Services.Timer.Runtime
                 [TimerEnvironment.OnlyPlayMode] = new PlayModeTimerRunner()
             };
             
-            m_TimerRoutine = m_TimerCoroutineRunner.StartCoroutine(Run());
+            // m_TimerRoutine = m_TimerCoroutineRunner.StartCoroutine(Run());
         }
         
         public TimerToken Begin(TimerNode node)
         {
+            m_TimerRoutine ??= m_TimerCoroutineRunner.StartCoroutine(Run());
+            
             var key = node.OnlyPlayMode 
                 ? TimerEnvironment.OnlyPlayMode 
                 : TimerEnvironment.SinceStartupMode;

@@ -3,15 +3,17 @@ using System.Collections.Generic;
 
 namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
 {
-    public class EntryObjectsNotifier : IDisposable
+    public class EntryGameEntityMonitor : IDisposable
     {
         public event Action OnChange; 
         
         private readonly HashSet<int> m_Entries = new();
         private readonly InteractionFilter<IGameObjectEntity> m_InteractionFilter;
         private readonly IGameEntities m_GameEntities;
+
+        public IEnumerable<int> Entries => m_Entries;
         
-        public EntryObjectsNotifier(IInteractionObject interactionObject, IGameEntities gameEntities)
+        public EntryGameEntityMonitor(IInteractionObject interactionObject, IGameEntities gameEntities)
         {
             m_InteractionFilter =
                 new InteractionFilter<IGameObjectEntity>(interactionObject, onEnter: OnEnter, onExit: OnExit);
@@ -45,7 +47,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
                 pointer++;
             }
 
-            for (int i = 0; i <= pointer; i++)
+            for (int i = 0; i < pointer; i++)
             {
                 var id = ids[i];
                 m_Entries.Remove(id);
@@ -65,18 +67,18 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         
         private void OnEnter(IGameObjectEntity entity)
         {
-            if (m_Entries.Contains(entity.Id))
+            if (m_Entries.Contains(entity.EntityId))
             {
                 return;
             }
 
-            m_Entries.Add(entity.Id);
+            m_Entries.Add(entity.EntityId);
             OnChange?.Invoke();
         }
 
         private void OnExit(IGameObjectEntity entity)
         {
-            var isRemoved = m_Entries.Remove(entity.Id);
+            var isRemoved = m_Entries.Remove(entity.EntityId);
             if (isRemoved)
             {
                 OnChange?.Invoke();

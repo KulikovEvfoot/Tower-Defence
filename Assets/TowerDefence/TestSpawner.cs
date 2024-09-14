@@ -1,5 +1,6 @@
 using System;
 using Common;
+using TowerDefence.Core.Runtime;
 using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
 using UnityEngine;
 using Zenject;
@@ -12,31 +13,33 @@ namespace TowerDefence
         
         [Inject] private IGameEntities m_GameEntities;
         
-        private IdFactory m_Factory;
-        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
-                var id = m_Factory.CreateNext();
+                var testEntity = new TestEntity();
+
+                var id = m_GameEntities.Add(testEntity);
                 
-                var unit = Instantiate(m_TestUnit, Vector3.zero, Quaternion.identity);
+                testEntity.SetId(id);
+                
+                var unit = Instantiate(m_TestUnit, new Vector3(30, 0 ,0), Quaternion.identity);
+                
                 unit.SetId(id);
-                
-                var t = new TestEntity(id);
-                
-                m_GameEntities.Add(id, t);
             }
         }
     }
     
-    public class TestEntity : IGameEntity
+    public class TestEntity : IGameEntity, IShotTarget
     {
-        public int Id { get; }
+        public int EntityId { get; private set; }
+        public GameObject View { get; }
+        public Vector3 Position => View.transform.position;
 
-        public TestEntity(int id)
+        public void SetId(int id)
         {
-            Id = id;
+            EntityId = id;
         }
+
     }
 }

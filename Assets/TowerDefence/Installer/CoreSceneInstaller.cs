@@ -17,7 +17,6 @@ namespace TowerDefence.Installer
     {
         [SerializeField] private CameraProvider m_CameraProvider;
         [SerializeField] private UpdateMaster m_UpdateMaster;
-        [SerializeField] private CoroutineRunner m_CoroutineRunner;
         
         public override void InstallBindings()
         {
@@ -31,6 +30,7 @@ namespace TowerDefence.Installer
             Container.Bind<AddressablesService>().AsSingle().NonLazy();
             Container.Bind<UpdateMaster>().FromInstance(m_UpdateMaster).AsSingle().NonLazy();
             
+            Container.Bind<IIdFactory>().To<IdFactory>().AsSingle().NonLazy();
             Container.Bind<IGameEntities>().To<GameEntities>().AsSingle().NonLazy();
             
             Container.Bind<LevelController>().AsSingle().NonLazy();
@@ -43,8 +43,6 @@ namespace TowerDefence.Installer
             Container.Bind<IControlEntity>().To<SceneLocationController>().FromResolve().NonLazy();
             
             BindTowers();
-            
-            Container.Bind<ICoroutineRunner>().FromInstance(m_CoroutineRunner).AsSingle().NonLazy();
             
             Container.Bind<IInitializable>().To<CoreSceneLauncher>().AsSingle().NonLazy();
         }

@@ -5,25 +5,43 @@ using UnityEngine;
 
 namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
 {
-    internal class CrossbowWeapon : IShotStrategy, IDisposable
+    public class CrossbowWeapon : IShotStrategy, ICanTakeAim, ICanReload, IDisposable
     {
         private readonly CrossbowAmmoSpawner m_CrossbowAmmoSpawner;
         private readonly CrossbowAmmoAnchorPoint m_CrossbowAmmoAnchorPoint;
         private readonly UpdateMaster m_UpdateMaster;
-        private readonly RifleDamageService m_RifleDamageService;
         private readonly CrossbowAmmoViewConfigurator m_CrossbowAmmoViewConfigurator;
+        private readonly TowerRecharger m_TowerRecharger;
+        private readonly TowerAim m_TowerAim;
         
         private readonly List<CrossbowShotSimulation> m_Simulations = new();
 
-        internal CrossbowWeapon(CrossbowAmmoSpawner crossbowAmmoSpawner, CrossbowAmmoAnchorPoint anchorPoint, UpdateMaster updateMaster)
+        internal CrossbowWeapon(
+            CrossbowAmmoSpawner crossbowAmmoSpawner,
+            CrossbowAmmoAnchorPoint anchorPoint,
+            UpdateMaster updateMaster,
+            TowerRecharger towerRecharger,
+            TowerAim towerAim)
         {
             m_CrossbowAmmoSpawner = crossbowAmmoSpawner;
             m_CrossbowAmmoAnchorPoint = anchorPoint;
             m_UpdateMaster = updateMaster;
-            m_RifleDamageService = new RifleDamageService();
-            m_CrossbowAmmoViewConfigurator = new CrossbowAmmoViewConfigurator(); 
+            m_TowerRecharger = towerRecharger;
+            m_TowerAim = towerAim;
+            
+            m_CrossbowAmmoViewConfigurator = new CrossbowAmmoViewConfigurator();
             
             m_UpdateMaster.OnUpdate += UpdateAmmoPosition;
+        }
+        
+        public void Reload()
+        {
+            m_TowerRecharger.Reload();
+        }
+
+        public void TakeAim(IShotTarget target)
+        {
+            m_TowerAim.TakeAim(target);
         }
 
         public void Shot(IShotTarget target)
@@ -42,7 +60,6 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
                 simulation.Move(Time.deltaTime);
                 if (simulation.IsCompleted)
                 {
-                    m_RifleDamageService.DoDamage(simulation.Target);
                     m_Simulations.RemoveAt(i);
                 }
 

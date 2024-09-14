@@ -7,7 +7,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
     {
         IReadOnlyDictionary<int, IGameEntity> Entities { get; }
         
-        void Add(int id, IGameEntity entity);
+        int Add(IGameEntity entity);
         Result<IGameEntity> Get(int id);
     }
 }
