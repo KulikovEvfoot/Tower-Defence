@@ -2,9 +2,7 @@ using System;
 using Common;
 using Cysharp.Threading.Tasks;
 using TowerDefence.Core.Runtime.AddressablesSystem;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Balance;
+using TowerDefence.Core.Runtime.Scene;
 using UnityEngine;
 
 namespace TowerDefence.Core.Runtime.Towers.Place.Runtime

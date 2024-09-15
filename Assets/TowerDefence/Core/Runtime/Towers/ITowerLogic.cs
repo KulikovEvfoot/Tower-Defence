@@ -1,4 +1,4 @@
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers
 {
     public interface ITowerLogic
     {

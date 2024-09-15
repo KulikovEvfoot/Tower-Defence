@@ -1,7 +1,7 @@
-using Common;
+using TowerDefence.Core.Runtime.Entities;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon
 {
     public class CrossbowAmmoFactory
     {
@@ -18,10 +18,8 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
         {
             var view = Object.Instantiate(m_CrossbowAmmoAsset);
             var ammo = new CrossbowAmmo(view);
-            
             var id = m_GameEntities.Add(ammo);
-            ammo.SetId(id);
-            view.SetId(id);
+            view.EntityId = id;
             
             return ammo;
         }

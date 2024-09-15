@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Common;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Entities
 {
     public class GameEntities : IGameEntities
     {
@@ -18,15 +18,11 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         public int Add(IGameEntity entity)
         {
             var id = m_IdFactory.CreateNext();
+            entity.EntityId = id;
             m_Entities.TryAdd(id, entity);
             return id;
         }
-
-        public int Add(IGameObjectEntity entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public void Remove(int id)
         {
             m_Entities.Remove(id);

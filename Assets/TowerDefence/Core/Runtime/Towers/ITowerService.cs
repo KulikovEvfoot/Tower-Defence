@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers
 {
     public interface ITowerService
     {

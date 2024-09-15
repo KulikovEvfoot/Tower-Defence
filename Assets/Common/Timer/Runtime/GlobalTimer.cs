@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Common;
 using UnityEngine;
 
-namespace Services.Timer.Runtime
+namespace Common.Timer.Runtime
 {
     public class GlobalTimer : IGlobalTimer, IDisposable
     {

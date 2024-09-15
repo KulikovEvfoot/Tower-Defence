@@ -64,8 +64,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 30, y: 1, z: 30}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 30, y: 10, z: 30}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!1 &9116994412516556222
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,8 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Root: {fileID: 9116994412516556222}
-  m_CrossbowWeaponView: {fileID: 8579918068454541719}
-  m_CrossbowAmmoTemplate: {fileID: 2463729557498617947}
+  m_CrossbowWeaponView: {fileID: 4562862180670377625}
+  m_CrossbowAmmoTemplate: {fileID: 338114929895241577, guid: a858bba7cd1318440abca197a0853ccc, type: 3}
   m_InteractionObject: {fileID: 4929804614126808187}
 --- !u!1001 &4282763334873738247
 PrefabInstance:
@@ -164,65 +164,84 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2923581440430769369, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2b082b8ed243bc945b77191701777222, type: 3}
       propertyPath: m_Name
       value: tower_crossbow_a (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.0025232472
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 0.0023723543
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: 0.051163524
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.12742078
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.7630776
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238370519211237424, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.7890378
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328888025165226997, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_Name
+      value: CrossbowArrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328888025165226997, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: -6047733042415130050, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -4539561675647323126, guid: 2b082b8ed243bc945b77191701777222, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8579918068454541719}
-    - targetCorrespondingSourceObject: {fileID: 7328888025165226997, guid: 2b082b8ed243bc945b77191701777222, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2463729557498617947}
+      addedObject: {fileID: 4562862180670377625}
   m_SourcePrefab: {fileID: 100100000, guid: 2b082b8ed243bc945b77191701777222, type: 3}
---- !u!4 &723195276890223722 stripped
+--- !u!4 &3997713046580725557 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -5663803428636239763, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8352536450216694990, guid: 2b082b8ed243bc945b77191701777222, type: 3}
   m_PrefabInstance: {fileID: 4282763334873738247}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1692592979933611577 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -6047733042415130050, guid: 2b082b8ed243bc945b77191701777222, type: 3}
-  m_PrefabInstance: {fileID: 4282763334873738247}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8579918068454541719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692592979933611577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7788bf20dfff46d696e77556e11000c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AmmoSpawnParent: {fileID: 723195276890223722}
-  m_Weapon: {fileID: 723195276890223722}
 --- !u!4 &4388150848984321004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b082b8ed243bc945b77191701777222, type: 3}
   m_PrefabInstance: {fileID: 4282763334873738247}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6834808764078559218 stripped
+--- !u!1 &8822360607444899853 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7328888025165226997, guid: 2b082b8ed243bc945b77191701777222, type: 3}
+  m_CorrespondingSourceObject: {fileID: -4539561675647323126, guid: 2b082b8ed243bc945b77191701777222, type: 3}
   m_PrefabInstance: {fileID: 4282763334873738247}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2463729557498617947
+--- !u!114 &4562862180670377625
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6834808764078559218}
+  m_GameObject: {fileID: 8822360607444899853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7831901b47bd477e8b2ca798628c8e7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7788bf20dfff46d696e77556e11000c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Root: {fileID: 6834808764078559218}
+  m_AmmoSpawnParent: {fileID: 3997713046580725557}
+  m_Weapon: {fileID: 3997713046580725557}

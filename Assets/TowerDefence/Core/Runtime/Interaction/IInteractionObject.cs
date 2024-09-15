@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Interaction
 {
     public interface IInteractionObject
     {

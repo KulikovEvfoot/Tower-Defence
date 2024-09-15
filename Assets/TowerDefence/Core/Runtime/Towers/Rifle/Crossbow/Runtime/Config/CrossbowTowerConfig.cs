@@ -2,7 +2,7 @@ using System;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Balance
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Config
 {
     [Serializable]
     public class CrossbowTowerConfig

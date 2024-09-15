@@ -1,7 +1,7 @@
 using System;
 using Common;
 using TowerDefence.Core.Runtime;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
+using TowerDefence.Core.Runtime.Entities;
 using UnityEngine;
 using Zenject;
 
@@ -25,14 +25,14 @@ namespace TowerDefence
                 
                 testEntity.SetId(id);
                 
-                unit.SetId(id);
+                unit.EntityId = id;
             }
         }
     }
     
     public class TestEntity : IGameEntity, IShotTarget
     {
-        public int EntityId { get; private set; }
+        public int EntityId { get; set; }
         public GameObject View { get; private set; }
         public Vector3 Position => View.transform.position;
 

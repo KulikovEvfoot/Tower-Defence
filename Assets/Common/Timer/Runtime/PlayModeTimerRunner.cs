@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Services.Timer.Runtime
+namespace Common.Timer.Runtime
 {
     //TODO: вынести в одну абстракцию одинаковый код (SinceStartup)
     internal class PlayModeTimerRunner : ITimerRunner, ICanPaused

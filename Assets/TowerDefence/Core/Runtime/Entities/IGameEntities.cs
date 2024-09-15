@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Common;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Entities
 {
     public interface IGameEntities
     {
@@ -9,5 +9,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         
         int Add(IGameEntity entity);
         Result<IGameEntity> Get(int id);
+        void Remove(int id);
+        bool Contains(int id);
     }
 }

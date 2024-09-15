@@ -1,4 +1,4 @@
-namespace TowerDefence.Installer.Stage
+namespace TowerDefence.Installer.Launcher.Stage
 {
     /// <summary>
     /// test

@@ -1,4 +1,4 @@
-namespace TowerDefence.Core.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Reload
 {
     public interface ICanReload
     {

@@ -1,5 +1,5 @@
 using System;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
+using TowerDefence.Core.Runtime.Entities;
 using UnityEngine;
 using Zenject;
 
@@ -9,14 +9,9 @@ namespace TowerDefence
     {
         public event Action<IAliveGameObjectEntity, bool> OnAliveChanged;
 
-        public int EntityId { get; private set; }
+        public int EntityId { get; set; }
         public GameObject GameObject => gameObject;
         
-        public void SetId(int id)
-        {
-            EntityId = id;
-        }
-
         public bool IsAlive()
         {
             return isActive;
@@ -32,7 +27,7 @@ namespace TowerDefence
             var t = new TestEntity(gameObject);
             var id = GameEntities.Add(t);
             t.SetId(id);
-            SetId(id);
+            EntityId = id;
             
             isActive = true;
         }

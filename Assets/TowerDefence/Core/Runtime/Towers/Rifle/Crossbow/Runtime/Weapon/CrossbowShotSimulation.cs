@@ -1,48 +1,46 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-[assembly:InternalsVisibleTo("TowerDefence.Towers.Rifle.Tests")]
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon
 {
-    internal class CrossbowShotSimulation
+    public class CrossbowShotSimulation
     {
-        private const float m_DefaultSpeed = 1;
+        private const float m_DefaultSpeed = 1f;
         
-        private readonly Vector3 m_SenderPosition;
-        private readonly float m_Time;
+        private readonly float m_Speed;
+        
+        public IShotTarget Target { get; set; }
+        public IAmmo Ammo { get; }
+        public bool IsCompleted { get; private set; }
 
-        private float m_TimeCounter;
-
-        internal IShotTarget Target { get; set; }
-        internal IAmmo Ammo { get; }
-        internal bool IsCompleted { get; private set; }
-
-        internal CrossbowShotSimulation(
-            Vector3 senderPosition,
+        public CrossbowShotSimulation(
             IShotTarget target,
             IAmmo ammo,
             float ammoSpeed = m_DefaultSpeed)
         {
-            m_SenderPosition = senderPosition;
             Target = target;
             Ammo = ammo;
-            
-            var distance = Vector3.Distance(m_SenderPosition, Target.Position);
-            m_Time = distance / ammoSpeed;
+
+            m_Speed = ammoSpeed;
         }
 
-        internal void Move(float deltaTime)
+        public void Move(float deltaTime)
         {
             if (IsCompleted)
             {
                 return;
             }
             
-            m_TimeCounter += deltaTime;
-            var progress = m_TimeCounter / m_Time;
-            Ammo.Position = Vector3.Lerp(m_SenderPosition, Target.Position, progress);
-
-            IsCompleted = progress >= 1;
+            var step =  m_Speed * deltaTime;
+            var ammoPosition = Ammo.Transform.position;
+            ammoPosition = Vector3.MoveTowards(ammoPosition, Target.Position, step);
+            
+            Ammo.Transform.position = ammoPosition;
+            Ammo.Transform.LookAt(Target.Position);
+            
+            if (Vector3.Distance(Ammo.Transform.position, Target.Position) < 0.001f)
+            {
+                IsCompleted = true; 
+            }
         }
     }
 }

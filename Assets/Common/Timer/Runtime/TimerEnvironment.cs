@@ -1,4 +1,4 @@
-namespace Services.Timer.Runtime
+namespace Common.Timer.Runtime
 {
     internal class TimerEnvironment
     {

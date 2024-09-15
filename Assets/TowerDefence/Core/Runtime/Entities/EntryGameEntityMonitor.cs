@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using TowerDefence.Core.Runtime.Interaction;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Entities
 {
     public class EntryGameEntityMonitor : IDisposable
     {

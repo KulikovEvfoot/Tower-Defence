@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Rifle
 {
     public static class RifleTowerEnvironment
     {

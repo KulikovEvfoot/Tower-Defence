@@ -1,33 +1,18 @@
+using TowerDefence.Core.Runtime.Entities;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon
 {
     public class CrossbowAmmo : IGameEntity, IAmmo
     {
         private readonly CrossbowAmmoView m_View;
 
-        public int EntityId { get; private set; }
+        public int EntityId { get; set; }
+        public Transform Transform => m_View.Transform;
         
-        public Vector3 Position
-        {
-            get => m_View.Position;
-            set => m_View.Position = value;
-        }
-        
-        public Quaternion Rotation
-        {
-            get => m_View.Rotation;
-            set => m_View.Rotation = value;
-        }
-
         internal CrossbowAmmo(CrossbowAmmoView view)
         {
             m_View = view;
-        }
-
-        public void SetId(int id)
-        {
-            EntityId = id;
         }
 
         public void SetActive(bool isActive)

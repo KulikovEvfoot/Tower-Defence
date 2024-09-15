@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Common;
+using TowerDefence.Core.Runtime.Towers.Aim;
+using TowerDefence.Core.Runtime.Towers.Reload;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon
 {
     public class CrossbowWeapon : IShotStrategy, ICanTakeAim, ICanReload, IDisposable
     {
@@ -53,7 +55,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
             
             var ammo = m_CrossbowAmmoSpawner.Spawn();
             m_CrossbowAmmoViewConfigurator.Configure(m_CrossbowAmmoAnchorPoint, ammo);
-            var simulation = new CrossbowShotSimulation(m_CrossbowAmmoAnchorPoint.Position, target, ammo);
+            var simulation = new CrossbowShotSimulation(target, ammo);
             m_Simulations.Add(simulation);
 
             m_TowerRecharger.Use();
@@ -61,7 +63,9 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
 
         private void UpdateAmmoPosition()
         {
-            for (int i = 0; i < m_Simulations.Count; i++)
+            var count = m_Simulations.Count;
+            
+            for (int i = count - 1; i >= 0; i--)
             {
                 var simulation = m_Simulations[i];
                 simulation.Move(Time.deltaTime);
@@ -69,8 +73,6 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
                 {
                     m_Simulations.RemoveAt(i);
                 }
-
-                i--;
             }
         }
 

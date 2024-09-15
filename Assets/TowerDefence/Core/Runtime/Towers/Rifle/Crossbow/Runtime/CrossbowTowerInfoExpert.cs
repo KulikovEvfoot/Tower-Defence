@@ -1,4 +1,8 @@
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+using TowerDefence.Core.Runtime.Towers.Aim;
+using TowerDefence.Core.Runtime.Towers.AttackPriority;
+using TowerDefence.Core.Runtime.Towers.Reload;
+
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime
 {
     public class CrossbowTowerInfoExpert
     {

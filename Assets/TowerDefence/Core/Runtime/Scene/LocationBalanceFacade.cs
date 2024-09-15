@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Common.Logger;
-using TowerDefence.Core.Runtime.Towers.Config;
+using TowerDefence.Core.Runtime.Scene.Scene;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Config
+namespace TowerDefence.Core.Runtime.Scene
 {
     public class LocationBalanceFacade : ILocationBalanceFacade
     {

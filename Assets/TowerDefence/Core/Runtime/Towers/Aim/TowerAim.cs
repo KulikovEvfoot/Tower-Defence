@@ -1,8 +1,8 @@
 using System;
 using Common.Timer;
-using Services.Timer.Runtime;
+using Common.Timer.Runtime;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Aim
 {
     public class TowerAim : IReadOnlyAimData, ITimerCompleteObserver, IDisposable
     {

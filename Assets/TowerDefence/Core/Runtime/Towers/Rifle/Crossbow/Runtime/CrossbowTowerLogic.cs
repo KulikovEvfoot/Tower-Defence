@@ -1,8 +1,10 @@
 using System;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon;
+using TowerDefence.Core.Runtime.Entities;
+using TowerDefence.Core.Runtime.Interaction;
+using TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime
 {
     public class CrossbowTowerLogic : ITowerLogic, IDisposable
     {

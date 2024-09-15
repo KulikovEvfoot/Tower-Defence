@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.AttackPriority
 {
     public class TestAttackPriorityCollection<T> : IAttackPriorityCollection<T>
     {

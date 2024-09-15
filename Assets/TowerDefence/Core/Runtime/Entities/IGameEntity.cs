@@ -1,7 +1,7 @@
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Entities
 {
     public interface IGameEntity
     {
-        int EntityId { get; }
+        int EntityId { get; set; }
     }
 }

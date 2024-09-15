@@ -1,10 +1,14 @@
 using Common;
-using Services.Timer.Runtime;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon;
+using Common.Timer.Runtime;
+using TowerDefence.Core.Runtime.Entities;
+using TowerDefence.Core.Runtime.Scene;
+using TowerDefence.Core.Runtime.Towers.Aim;
+using TowerDefence.Core.Runtime.Towers.AttackPriority;
+using TowerDefence.Core.Runtime.Towers.Reload;
+using TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime
 {
     public class CrossbowTowerFactory : ITowerFactory
     {
@@ -73,6 +77,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             var rifleTower = new RifleTower(pointId, view, towerLogic); 
             
             //test
+            //change when add upgrades
             rifleTower.SetActive(true);
             
             return Result<ITower>.Success(rifleTower);

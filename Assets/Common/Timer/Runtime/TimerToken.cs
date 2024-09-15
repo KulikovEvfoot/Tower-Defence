@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.Timer.Runtime
+namespace Common.Timer.Runtime
 {
     public class TimerToken : IDisposable
     {

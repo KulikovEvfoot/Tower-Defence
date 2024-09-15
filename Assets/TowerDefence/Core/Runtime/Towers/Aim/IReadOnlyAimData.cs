@@ -1,6 +1,6 @@
 using System;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Aim
 {
     public interface IReadOnlyAimData
     {

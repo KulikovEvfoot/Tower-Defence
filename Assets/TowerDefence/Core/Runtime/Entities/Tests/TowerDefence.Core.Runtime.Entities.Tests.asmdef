@@ -1,15 +1,16 @@
 {
-    "name": "TowerDefence.Towers.Rifle.Tests",
+    "name": "TowerDefence.Core.Runtime.Entities.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "TowerDefence.Core.Runtime"
+        "TowerDefence.Core.Runtime",
+        "Common"
     ],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "includePlatforms": [
         "Editor"
     ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [

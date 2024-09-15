@@ -6,8 +6,7 @@ using Cysharp.Threading.Tasks;
 using Launcher;
 using TowerDefence.Core.Runtime.AddressablesSystem;
 using TowerDefence.Core.Runtime.Towers;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
-using TowerDefence.Installer.Stage;
+using TowerDefence.Installer.Launcher.Stage;
 using UnityEngine;
 using Zenject;
 

@@ -1,8 +1,8 @@
 using Launcher;
 using TowerDefence.Core.Runtime.AddressablesSystem;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Config;
-using TowerDefence.Installer.Stage;
+using TowerDefence.Core.Runtime.Scene;
+using TowerDefence.Core.Runtime.Scene.Scene;
+using TowerDefence.Installer.Launcher.Stage;
 using UnityEngine;
 using Zenject;
 

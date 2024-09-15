@@ -1,6 +1,6 @@
 using Common;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon
 {
     public class CrossbowAmmoSpawner
     {
