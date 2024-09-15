@@ -28,8 +28,11 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             aliveEntity.OnAliveChanged += EntityOnAliveChanged;
             
             m_Entries.Add(aliveEntity.EntityId);
-            
-            OnChange?.Invoke();
+
+            if (aliveEntity.IsAlive())
+            {
+                OnChange?.Invoke();
+            }
         }
 
         private void OnExit(IAliveGameObjectEntity aliveEntity)
