@@ -66,15 +66,14 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             
             var towerLogic = new CrossbowTowerLogic(
                 view.InteractionObject,
+                infoExpert,
                 crossbowWeapon,
-                m_GameEntities,
-                testAttackPriorityCollection,
-                infoExpert);
+                m_GameEntities);
             
             var rifleTower = new RifleTower(pointId, view, towerLogic); 
             
             //test
-            rifleTower.SetLogic(towerLogic);
+            rifleTower.SetActive(true);
             
             return Result<ITower>.Success(rifleTower);
         }

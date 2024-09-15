@@ -7,18 +7,22 @@ namespace Services.Timer.Runtime
     internal class SinceStartupTimerRunner : ITimerRunner
     {
         private readonly Dictionary<TimerToken, TimerArgs> m_Args = new();
-        private readonly List<TimerToken> m_ToDetach = new();
+        
+        private readonly List<Tuple<TimerToken, TimerArgs>> m_ToAttach = new();
+        private readonly List<TimerToken> m_ToDispose = new();
         
         public TimerToken Attach(TimerArgs args)
         {
             var token = new TimerToken(this);
-            m_Args.TryAdd(token, args);
+
+            m_ToAttach.Add(new Tuple<TimerToken, TimerArgs>(token, args));
+            
             return token;
         }
 
         public void Detach(TimerToken token)
         {
-            m_Args.Remove(token);
+            m_ToDispose.Add(token);
         }
         
         public void Tick()
@@ -29,35 +33,56 @@ namespace Services.Timer.Runtime
                 var args = m_Args[token];
                 var pastTime  = args.StartTimeSinceStartup - Time.realtimeSinceStartup;
                 var timeLeft = pastTime + args.Duration;
-
                 if (timeLeft <= float.Epsilon)
                 {
                     args.TimerTickObserver.Tick(TimeSpan.Zero);
                     args.TimerCompleteObserver.OnTimerComplete();
                     
-                    m_ToDetach.Add(token);
-                    return;
+                    m_ToDispose.Add(token);
+                    continue;
                 }
-            
+                
                 args.TimerTickObserver.Tick(TimeSpan.FromSeconds(timeLeft));
             }
 
-            var toDetachCount = m_ToDetach.Count;
-            if (toDetachCount > 0)
+            ManagedDispose();
+        }
+        
+        private void ManagedAttach()
+        {
+            foreach (var tuple in m_ToAttach)
             {
-                for (int i = toDetachCount - 1; i < toDetachCount; i--)
+                var token = tuple.Item1;
+                m_Args.TryAdd(token, tuple.Item2);
+            }
+            
+            m_ToAttach.Clear();
+        }
+
+        private void ManagedDispose()
+        {
+            var toDisposeCount = m_ToDispose.Count;
+            if (toDisposeCount > 0)
+            {
+                for (int i = toDisposeCount - 1; i >= 0; i--)
                 {
-                    m_ToDetach.RemoveAt(i);
+                    var token = m_ToDispose[i];
+                    m_Args.Remove(token);
+                    m_ToDispose.RemoveAt(i);
                 }
             }
         }
-
+        
         public void Dispose()
         {
-            foreach (var token in m_Args.Keys)
+            m_ToAttach.Clear();
+
+            foreach (var arg in m_Args)
             {
-                token.Dispose();
+                m_ToDispose.Add(arg.Key);
             }
+            
+            ManagedDispose();
         }
     }
 }

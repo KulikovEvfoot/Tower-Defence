@@ -28,5 +28,12 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         {
             //TODO: add animation
         }
+
+        //test
+        private void OnDrawGizmos()
+        {
+            var collider = m_InteractionObject.Collider;
+            Gizmos.DrawWireCube(collider.bounds.center, collider.bounds.size);
+        }
     }
 }

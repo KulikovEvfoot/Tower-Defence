@@ -20,10 +20,15 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             var node = new TimerNode(m_ReloadData.ReloadTime, this);
             m_SimpleTimer = new SimpleTimer(globalTimer, node);
         }
+
+        public void Use()
+        {
+            m_ReloadData.Use();
+        }
         
         public void Reload()
         {
-            if (!m_ReloadData.HasAmmo() || m_InProgress)
+            if (m_ReloadData.HasAmmo() || m_InProgress)
             {
                 return;
             }
@@ -35,6 +40,11 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             OnStartReload?.Invoke(m_ReloadData.ReloadTime);
         }
 
+        public bool HasAmmo()
+        {
+            return m_ReloadData.HasAmmo();
+        }
+        
         void ITimerCompleteObserver.OnTimerComplete()
         {
             m_InProgress = false;

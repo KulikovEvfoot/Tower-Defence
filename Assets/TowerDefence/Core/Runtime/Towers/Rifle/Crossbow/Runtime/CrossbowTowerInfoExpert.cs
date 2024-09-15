@@ -2,8 +2,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
 {
     public class CrossbowTowerInfoExpert
     {
-        private readonly IAttackPriorityCollection<IShotTarget> m_AttackPriorityCollection;
-
+        public IAttackPriorityCollection<IShotTarget> AttackPriority { get; }
         public IReadOnlyReloadData ReloadData { get; }
         public IReadOnlyAimData AimData { get; }
         
@@ -12,18 +11,13 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         public CrossbowTowerInfoExpert(
             IReadOnlyReloadData reloadData, 
             IReadOnlyAimData aimData, 
-            IAttackPriorityCollection<IShotTarget> attackPriorityCollection)
+            IAttackPriorityCollection<IShotTarget> attackPriority)
         {
             ReloadData = reloadData;
             AimData = aimData;
-            m_AttackPriorityCollection = attackPriorityCollection;
+            AttackPriority = attackPriority;
         }
         
-        public bool HasEnemyInRange()
-        {
-            return m_AttackPriorityCollection.HasNext();
-        }
-
         public bool IsAimTaken()
         {
             if (CurrentTarget == null)

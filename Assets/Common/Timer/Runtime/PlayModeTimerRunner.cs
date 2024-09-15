@@ -4,28 +4,30 @@ using UnityEngine;
 
 namespace Services.Timer.Runtime
 {
+    //TODO: вынести в одну абстракцию одинаковый код (SinceStartup)
     internal class PlayModeTimerRunner : ITimerRunner, ICanPaused
     {
-        private bool m_IsPaused;
-        private float m_PauseTime;
-
         private readonly Dictionary<TimerToken, TimerArgs> m_Args = new();
         private readonly Dictionary<TimerToken, float> m_PauseDelay = new();
 
-        private readonly List<TimerToken> m_ToDetach = new();
+        private readonly List<Tuple<TimerToken, TimerArgs>> m_ToAttach = new();
+        private readonly List<TimerToken> m_ToDispose = new();
+        
+        private bool m_IsPaused;
+        private float m_PauseTime;
         
         public TimerToken Attach(TimerArgs args)
         {
             var token = new TimerToken(this);
-            m_Args.TryAdd(token, args);
-            m_PauseDelay.TryAdd(token, 0);
+            
+            m_ToAttach.Add(new Tuple<TimerToken, TimerArgs>(token, args));
+            
             return token;
         }
-
+        
         public void Detach(TimerToken token)
         {
-            m_Args.Remove(token);
-            m_PauseDelay.Remove(token);
+            m_ToDispose.Add(token);
         }
 
         public void Tick()     
@@ -35,9 +37,10 @@ namespace Services.Timer.Runtime
                 return;
             }
 
-            foreach (var pair in m_Args)
+            ManagedAttach();
+            
+            foreach (var token in m_Args.Keys)
             {
-                var token = pair.Key;
                 var args = m_Args[token];
                 var pastTime  = args.StartTimeSinceStartup - Time.realtimeSinceStartup;
                 var timeLeft = pastTime + args.Duration + m_PauseDelay[token];
@@ -47,21 +50,14 @@ namespace Services.Timer.Runtime
                     args.TimerTickObserver.Tick(TimeSpan.Zero);
                     args.TimerCompleteObserver.OnTimerComplete();
                     
-                    m_ToDetach.Add(token);
-                    return;
+                    m_ToDispose.Add(token);
+                    continue;
                 }
-            
+                
                 args.TimerTickObserver.Tick(TimeSpan.FromSeconds(timeLeft));
             }
 
-            var toDetachCount = m_ToDetach.Count;
-            if (toDetachCount > 0)
-            {
-                for (int i = toDetachCount - 1; i < toDetachCount; i--)
-                {
-                    m_ToDetach.RemoveAt(i);
-                }
-            }
+            ManagedDispose();
         }
 
         public void SetPause(bool isPaused)
@@ -90,12 +86,44 @@ namespace Services.Timer.Runtime
             }
         }
 
+        private void ManagedAttach()
+        {
+            foreach (var tuple in m_ToAttach)
+            {
+                var token = tuple.Item1;
+                m_Args.Add(token, tuple.Item2);
+                m_PauseDelay.Add(token, 0);
+            }
+            
+            m_ToAttach.Clear();
+        }
+        
+        private void ManagedDispose()
+        {
+            var toDisposeCount = m_ToDispose.Count;
+            if (toDisposeCount > 0)
+            {
+                for (int i = toDisposeCount - 1; i >= 0; i--)
+                {
+                    var token = m_ToDispose[i];
+                    m_Args.Remove(token);
+                    m_PauseDelay.Remove(token);
+                    
+                    m_ToDispose.RemoveAt(i);
+                }
+            }
+        }
+        
         public void Dispose()
         {
-            foreach (var token in m_Args.Keys)
+            m_ToAttach.Clear();
+            
+            foreach (var arg in m_Args)
             {
-                token.Dispose();
+                m_ToDispose.Add(arg.Key);
             }
+            
+            ManagedDispose();
         }
     }
 }

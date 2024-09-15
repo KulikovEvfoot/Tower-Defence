@@ -9,6 +9,8 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
 
         public int PointId { get; }
 
+        private bool m_IsActive;
+        
         public RifleTower(int pointId, ITowerView view, ITowerLogic towerLogic)
         {
             PointId = pointId;
@@ -16,6 +18,18 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             m_TowerLogic = towerLogic;
         }
 
+        public void SetActive(bool isActive)
+        {
+            if (m_IsActive == isActive)
+            {
+                return;
+            }
+
+            m_IsActive = isActive;
+            
+            m_TowerLogic?.SetActive(m_IsActive);
+        }
+        
         public void SetLogic(ITowerLogic towerLogic)
         {
             m_TowerLogic.SetActive(false);
@@ -25,8 +39,7 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             }
             
             m_TowerLogic = towerLogic;
-            m_TowerLogic.SetActive(true);
+            m_TowerLogic.SetActive(m_IsActive);
         }
-        
     }
 }

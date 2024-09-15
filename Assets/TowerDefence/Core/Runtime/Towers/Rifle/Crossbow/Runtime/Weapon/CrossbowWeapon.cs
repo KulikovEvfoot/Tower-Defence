@@ -46,10 +46,17 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Weapon
 
         public void Shot(IShotTarget target)
         {
+            if (!m_TowerRecharger.HasAmmo())
+            {
+                return;
+            }
+            
             var ammo = m_CrossbowAmmoSpawner.Spawn();
             m_CrossbowAmmoViewConfigurator.Configure(m_CrossbowAmmoAnchorPoint, ammo);
             var simulation = new CrossbowShotSimulation(m_CrossbowAmmoAnchorPoint.Position, target, ammo);
             m_Simulations.Add(simulation);
+
+            m_TowerRecharger.Use();
         }
 
         private void UpdateAmmoPosition()

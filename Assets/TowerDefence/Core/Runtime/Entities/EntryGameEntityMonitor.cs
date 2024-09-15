@@ -8,80 +8,47 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         public event Action OnChange; 
         
         private readonly HashSet<int> m_Entries = new();
-        private readonly InteractionFilter<IGameObjectEntity> m_InteractionFilter;
-        private readonly IGameEntities m_GameEntities;
+        private readonly InteractionFilter<IAliveGameObjectEntity> m_InteractionFilter;
 
         public IEnumerable<int> Entries => m_Entries;
         
-        public EntryGameEntityMonitor(IInteractionObject interactionObject, IGameEntities gameEntities)
+        public EntryGameEntityMonitor(IInteractionObject interactionObject)
         {
             m_InteractionFilter =
-                new InteractionFilter<IGameObjectEntity>(interactionObject, onEnter: OnEnter, onExit: OnExit);
-
-            m_GameEntities = gameEntities;
+                new InteractionFilter<IAliveGameObjectEntity>(interactionObject, onEnter: OnEnter, onExit: OnExit);
         }
         
-        public bool Has(int id)
+        private void OnEnter(IAliveGameObjectEntity aliveEntity)
         {
-            if (!m_Entries.Contains(id))
-            {
-                return false;
-            }
-
-            return InternalHas(id);
-        }
-
-        public void Update()
-        {
-            int pointer = 0;
-            Span<int> ids = stackalloc int[m_Entries.Count];
-            
-            foreach (var id in m_Entries)
-            {
-                if (InternalHas(id))
-                {
-                    continue;
-                }
-
-                ids[pointer] = id;
-                pointer++;
-            }
-
-            for (int i = 0; i < pointer; i++)
-            {
-                var id = ids[i];
-                m_Entries.Remove(id);
-            }
-
-            if (pointer > 0)
-            {
-                OnChange?.Invoke();
-            }
-        }
-
-        private bool InternalHas(int id)
-        {
-            var result = m_GameEntities.Get(id);
-            return result.IsExist;
-        }
-        
-        private void OnEnter(IGameObjectEntity entity)
-        {
-            if (m_Entries.Contains(entity.EntityId))
+            if (m_Entries.Contains(aliveEntity.EntityId))
             {
                 return;
             }
 
-            m_Entries.Add(entity.EntityId);
+            aliveEntity.OnAliveChanged += EntityOnAliveChanged;
+            
+            m_Entries.Add(aliveEntity.EntityId);
+            
             OnChange?.Invoke();
         }
 
-        private void OnExit(IGameObjectEntity entity)
+        private void OnExit(IAliveGameObjectEntity aliveEntity)
         {
-            var isRemoved = m_Entries.Remove(entity.EntityId);
+            aliveEntity.OnAliveChanged -= EntityOnAliveChanged;
+            
+            var isRemoved = m_Entries.Remove(aliveEntity.EntityId);
+            
             if (isRemoved)
             {
                 OnChange?.Invoke();
+            }
+        }
+
+        private void EntityOnAliveChanged(IAliveGameObjectEntity aliveEntity, bool isAlive)
+        {
+            if (!isAlive)
+            {
+                OnExit(aliveEntity);
             }
         }
 

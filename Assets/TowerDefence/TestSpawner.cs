@@ -17,13 +17,13 @@ namespace TowerDefence
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
-                var testEntity = new TestEntity();
+                var unit = Instantiate(m_TestUnit, new Vector3(30, 0 ,0), Quaternion.identity);
+
+                var testEntity = new TestEntity(unit.GameObject);
 
                 var id = m_GameEntities.Add(testEntity);
                 
                 testEntity.SetId(id);
-                
-                var unit = Instantiate(m_TestUnit, new Vector3(30, 0 ,0), Quaternion.identity);
                 
                 unit.SetId(id);
             }
@@ -33,9 +33,14 @@ namespace TowerDefence
     public class TestEntity : IGameEntity, IShotTarget
     {
         public int EntityId { get; private set; }
-        public GameObject View { get; }
+        public GameObject View { get; private set; }
         public Vector3 Position => View.transform.position;
 
+        public TestEntity(GameObject gameObject)
+        {
+            View = gameObject;
+        }
+        
         public void SetId(int id)
         {
             EntityId = id;
