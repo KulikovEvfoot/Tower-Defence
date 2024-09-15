@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Common;
 using Common.Logger;
 using Cysharp.Threading.Tasks;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
+using TowerDefence.Core.Runtime.Scene;
 using UnityEngine;
 
 namespace TowerDefence.Core.Runtime.Towers
@@ -38,7 +37,7 @@ namespace TowerDefence.Core.Runtime.Towers
         {
             foreach (var service in m_TowerServices.Values)
             {
-                service.Init(m_LocationBalanceFacade);
+                service.Init();
             }
         }
         

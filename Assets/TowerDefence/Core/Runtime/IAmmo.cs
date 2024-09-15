@@ -1,6 +1,6 @@
 namespace TowerDefence.Core.Runtime
 {
-    public interface IAmmo : ICanMove
+    public interface IAmmo : IHasTransform
     {
         
     }

@@ -1,14 +1,13 @@
 using Cysharp.Threading.Tasks;
-using TowerDefence.Core.Runtime.Config;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers
 {
     public interface ITowerService
     {
         string Key { get; }
         
         UniTask Preload();
-        void Init(ILocationBalanceFacade locationBalanceFacade);
+        void Init();
         ITowerFactory GetFactory();
     }
 }

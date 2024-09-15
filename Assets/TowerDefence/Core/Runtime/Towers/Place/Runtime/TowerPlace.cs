@@ -2,9 +2,7 @@ using System;
 using Common;
 using Cysharp.Threading.Tasks;
 using TowerDefence.Core.Runtime.AddressablesSystem;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Balance;
+using TowerDefence.Core.Runtime.Scene;
 using UnityEngine;
 
 namespace TowerDefence.Core.Runtime.Towers.Place.Runtime
@@ -13,6 +11,7 @@ namespace TowerDefence.Core.Runtime.Towers.Place.Runtime
     {
         private readonly ILogger m_Logger;
         private readonly AddressablesService m_AddressablesService;
+        private readonly ILocationBalanceFacade m_LocationBalanceFacade;
         
         private TowerPlaceFactory m_TowerPlaceFactory;
         
@@ -20,9 +19,10 @@ namespace TowerDefence.Core.Runtime.Towers.Place.Runtime
 
         public string Key => TowerPlaceEnvironment.Key;
 
-        public TowerPlaceService(AddressablesService addressablesService)
+        public TowerPlaceService(AddressablesService addressablesService, ILocationBalanceFacade locationBalanceFacade)
         {
             m_AddressablesService = addressablesService;
+            m_LocationBalanceFacade = locationBalanceFacade;
         }
 
         public async UniTask Preload()
@@ -50,9 +50,9 @@ namespace TowerDefence.Core.Runtime.Towers.Place.Runtime
             }
         }
 
-        public void Init(ILocationBalanceFacade locationBalanceFacade)
+        public void Init()
         {
-            m_TowerPlaceFactory = new TowerPlaceFactory(m_TowerPlaceAsset, locationBalanceFacade);
+            m_TowerPlaceFactory = new TowerPlaceFactory(m_TowerPlaceAsset, m_LocationBalanceFacade);
         }
 
         public ITowerFactory GetFactory()

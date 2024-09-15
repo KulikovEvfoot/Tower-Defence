@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TowerDefence.Core.Runtime.Towers.Config
+namespace TowerDefence.Core.Runtime.Scene.Scene
 {
     public interface ISceneLocationSettings
     {

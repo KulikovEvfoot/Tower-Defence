@@ -1,22 +1,45 @@
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+using System;
+
+namespace TowerDefence.Core.Runtime.Towers.Rifle
 {
     public class RifleTower : ITower
     {
-        private readonly CrossbowTowerView m_TowerView;
-        private readonly IShotStrategy m_ShotStrategy;
+        private ITowerView m_TowerView;
+        private ITowerLogic m_TowerLogic;
 
-        public int Id { get; }
+        public int PointId { get; }
 
-        public RifleTower(int id, CrossbowTowerView view, IShotStrategy shotStrategy)
+        private bool m_IsActive;
+        
+        public RifleTower(int pointId, ITowerView view, ITowerLogic towerLogic)
         {
-            Id = id;
+            PointId = pointId;
             m_TowerView = view;
-            m_ShotStrategy = shotStrategy;
+            m_TowerLogic = towerLogic;
         }
 
-        public void Shoot(IShotTarget target)
+        public void SetActive(bool isActive)
         {
-            m_ShotStrategy.Shot(target);
+            if (m_IsActive == isActive)
+            {
+                return;
+            }
+
+            m_IsActive = isActive;
+            
+            m_TowerLogic?.SetActive(m_IsActive);
+        }
+        
+        public void SetLogic(ITowerLogic towerLogic)
+        {
+            m_TowerLogic.SetActive(false);
+            if (m_TowerLogic is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+            
+            m_TowerLogic = towerLogic;
+            m_TowerLogic.SetActive(m_IsActive);
         }
     }
 }

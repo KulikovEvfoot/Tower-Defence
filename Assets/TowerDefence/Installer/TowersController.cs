@@ -6,9 +6,7 @@ using Cysharp.Threading.Tasks;
 using Launcher;
 using TowerDefence.Core.Runtime.AddressablesSystem;
 using TowerDefence.Core.Runtime.Towers;
-using TowerDefence.Core.Runtime.Towers.Place.Runtime;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
-using TowerDefence.Installer.Stage;
+using TowerDefence.Installer.Launcher.Stage;
 using UnityEngine;
 using Zenject;
 
@@ -35,6 +33,7 @@ namespace TowerDefence.Installer
             List<ITowerService> towerServices)
         {
             m_Logger = Debug.unityLogger.WithPrefix($"[{nameof(TowersController)}]: ");
+            
             m_AddressablesService = addressablesService;
             m_LevelController = levelController;
             m_TowerServices = towerServices;

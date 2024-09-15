@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers
 {
     public class TowerFactoryProvider : ITowerFactory
     {

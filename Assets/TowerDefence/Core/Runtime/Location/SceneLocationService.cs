@@ -1,7 +1,7 @@
-using TowerDefence.Core.Runtime.Config;
+using TowerDefence.Core.Runtime.Scene;
 using TowerDefence.Core.Runtime.Towers;
 using TowerDefence.Core.Runtime.Towers.Place.Runtime;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
+using TowerDefence.Core.Runtime.Towers.Rifle;
 
 namespace TowerDefence.Core.Runtime.Location
 {

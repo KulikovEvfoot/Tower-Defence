@@ -1,7 +1,6 @@
 using Launcher;
-using TowerDefence.Core.Runtime.Config;
 using TowerDefence.Core.Runtime.Location;
-using TowerDefence.Installer.Stage;
+using TowerDefence.Installer.Launcher.Stage;
 using UnityEngine;
 using Zenject;
 

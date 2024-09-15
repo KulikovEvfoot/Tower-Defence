@@ -1,8 +1,8 @@
 using Launcher;
 using TowerDefence.Core.Runtime.AddressablesSystem;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Config;
-using TowerDefence.Installer.Stage;
+using TowerDefence.Core.Runtime.Scene;
+using TowerDefence.Core.Runtime.Scene.Scene;
+using TowerDefence.Installer.Launcher.Stage;
 using UnityEngine;
 using Zenject;
 
@@ -14,14 +14,15 @@ namespace TowerDefence.Installer
         private const string m_SceneLocationSettings_1 = "SceneLocationSettings_1";
         
         private readonly AddressablesService m_AddressableService;
-        private LocationBalanceFacade m_LocationBalanceFacade;
+        private readonly LocationBalanceFacade m_LocationBalanceFacade;
         
         public ILocationBalanceFacade LocationBalanceFacade => m_LocationBalanceFacade;
 
         [Inject]
-        public LevelController(AddressablesService addressablesService)
+        public LevelController(AddressablesService addressablesService, LocationBalanceFacade locationBalanceFacade)
         {
             m_AddressableService = addressablesService;
+            m_LocationBalanceFacade = locationBalanceFacade;
         }
 
         public LoadingResult LoadResources()
@@ -29,7 +30,7 @@ namespace TowerDefence.Installer
             var sceneConfigGo = m_AddressableService.LoadSync<GameObject>(m_SceneLocationSettings_1);
             var sceneConfig = sceneConfigGo.GetComponent<SceneLocationSettings>();
             
-            m_LocationBalanceFacade = new LocationBalanceFacade(sceneConfig);
+            m_LocationBalanceFacade.Setup(sceneConfig);
             
             return LoadingResult.Sync;
         }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Launcher;
-using TowerDefence.Installer.Stage;
+using TowerDefence.Installer.Launcher.Stage;
 using Zenject;
 
 namespace TowerDefence.Installer.Launcher

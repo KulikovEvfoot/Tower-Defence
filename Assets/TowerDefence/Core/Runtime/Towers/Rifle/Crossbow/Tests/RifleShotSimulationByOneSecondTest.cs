@@ -1,9 +1,9 @@
 using NUnit.Framework;
-using TowerDefence.Core.Runtime.Stub;
-using TowerDefence.Towers.Rifle.Runtime.Weapon;
+using TowerDefence.Core.Runtime.Mock;
+using TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Weapon;
 using UnityEngine;
 
-namespace TowerDefence.Towers.Rifle.Tests
+namespace TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Tests
 {
     public class RifleShotSimulationByOneSecondTest : MonoBehaviour
     {
@@ -11,8 +11,8 @@ namespace TowerDefence.Towers.Rifle.Tests
     
         private Vector3 m_SenderPosition;
         private Vector3 m_TargetPosition;
-        private StubShotTarget m_StubTarget;
-        private StubAmmo m_StubAmmo;
+        private MockShotTarget m_MockTarget;
+        private MockAmmo m_MockAmmo;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -24,44 +24,45 @@ namespace TowerDefence.Towers.Rifle.Tests
         [SetUp]
         public void SetUp()
         {
-            m_StubTarget = new StubShotTarget { Position = m_TargetPosition };
-            m_StubAmmo = new StubAmmo { Position = m_SenderPosition };
+            m_MockTarget = new MockShotTarget { Position = m_TargetPosition };
+            var testGo = new GameObject();
+            m_MockAmmo = new MockAmmo(testGo.transform);
         }
     
         [Test]
         public void Should_HitTarget_Speed_1()
         {
             var ammoSpeed = 1;
-            var simulation = new RifleShotSimulation(m_SenderPosition, m_StubTarget, m_StubAmmo, ammoSpeed);
+            var simulation = new CrossbowShotSimulation(m_MockTarget, m_MockAmmo, ammoSpeed);
             
             simulation.Move(m_Second);
         
             Assert.IsTrue(simulation.IsCompleted);
-            Assert.AreEqual(simulation.Ammo.Position, m_TargetPosition);
+            Assert.AreEqual(simulation.Ammo.Transform.position, m_TargetPosition);
         }
     
         [Test]
         public void Should_HitTarget_Speed_2()
         {
             var ammoSpeed = 2;
-            var simulation = new RifleShotSimulation(m_SenderPosition, m_StubTarget, m_StubAmmo, ammoSpeed);
+            var simulation = new CrossbowShotSimulation(m_MockTarget, m_MockAmmo, ammoSpeed);
             
             simulation.Move(m_Second);
         
             Assert.IsTrue(simulation.IsCompleted);
-            Assert.AreEqual(simulation.Ammo.Position, m_TargetPosition);
+            Assert.AreEqual(simulation.Ammo.Transform.position, m_TargetPosition);
         }
     
         [Test]
         public void ShouldNot_HitTarget_Speed_05f()
         {
             var ammoSpeed = 0.5f;
-            var simulation = new RifleShotSimulation(m_SenderPosition, m_StubTarget, m_StubAmmo, ammoSpeed);
+            var simulation = new CrossbowShotSimulation(m_MockTarget, m_MockAmmo, ammoSpeed);
         
             simulation.Move(m_Second);
         
             Assert.IsFalse(simulation.IsCompleted);
-            Assert.AreNotEqual(simulation.Ammo.Position, m_TargetPosition);
+            Assert.AreNotEqual(simulation.Ammo.Transform.position, m_TargetPosition);
         }
     }
 }

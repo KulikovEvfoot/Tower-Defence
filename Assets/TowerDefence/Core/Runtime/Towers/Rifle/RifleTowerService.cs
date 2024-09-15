@@ -1,18 +1,24 @@
 using System.Collections.Generic;
 using Common;
 using Common.Logger;
+using Common.Timer.Runtime;
 using Cysharp.Threading.Tasks;
 using TowerDefence.Core.Runtime.AddressablesSystem;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime.Balance;
+using TowerDefence.Core.Runtime.Entities;
+using TowerDefence.Core.Runtime.Scene;
+using TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime;
+using TowerDefence.Core.Runtime.Towers.Rifle.Crossbow.Runtime.Config;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
+namespace TowerDefence.Core.Runtime.Towers.Rifle
 {
     public class RifleTowerService : ITowerService
     {
         private readonly AddressablesService m_AddressablesService;
+        private readonly ILocationBalanceFacade m_LocationBalanceFacade;
+        private readonly IGameEntities m_GameEntities;
         private readonly UpdateMaster m_UpdateMaster;
+        private readonly IGlobalTimer m_GlobalTimer;
         private readonly ILogger m_Logger;
         
         private TowerFactoryProvider m_TowerFactoryProvider;
@@ -22,11 +28,17 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
         
         public RifleTowerService(
             AddressablesService addressablesService,
+            ILocationBalanceFacade locationBalanceFacade,
+            IGameEntities gameEntities,
+            IGlobalTimer globalTimer,
             UpdateMaster updateMaster)
         {
             m_Logger = Debug.unityLogger.WithPrefix($"[{nameof(RifleTowerService)}]: ");
 
             m_AddressablesService = addressablesService;
+            m_LocationBalanceFacade = locationBalanceFacade;
+            m_GameEntities = gameEntities;
+            m_GlobalTimer = globalTimer;
             m_UpdateMaster = updateMaster;
         }
 
@@ -58,13 +70,15 @@ namespace TowerDefence.Core.Runtime.Towers.Rifle.Runtime
             }
         }
 
-        public void Init(ILocationBalanceFacade locationBalanceFacade)
+        public void Init()
         {
             var towerFactoriesMap = new Dictionary<string, ITowerFactory>();
             
             var crossbowFactory = new CrossbowTowerFactory(
                 m_CrossbowTowerViewAsset,
-                locationBalanceFacade,
+                m_LocationBalanceFacade,
+                m_GameEntities,
+                m_GlobalTimer,
                 m_UpdateMaster);
 
             towerFactoriesMap.Add(RifleTowerEnvironment.CrossbowSubtype, crossbowFactory);

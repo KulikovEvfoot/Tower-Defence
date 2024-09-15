@@ -1,6 +1,5 @@
 using Common;
-using TowerDefence.Core.Runtime.Config;
-using TowerDefence.Core.Runtime.Towers.Rifle.Runtime;
+using TowerDefence.Core.Runtime.Scene;
 using UnityEngine;
 
 namespace TowerDefence.Core.Runtime.Towers.Place.Runtime

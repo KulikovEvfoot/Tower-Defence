@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Common;
-using TowerDefence.Core.Runtime.Towers.Config;
+using TowerDefence.Core.Runtime.Scene.Scene;
 
-namespace TowerDefence.Core.Runtime.Config
+namespace TowerDefence.Core.Runtime.Scene
 {
     public interface ILocationBalanceFacade
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Config
+namespace TowerDefence.Core.Runtime.Scene.Scene
 {
     [Serializable]
     public class TowerWaypoint

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TowerDefence.Core.Runtime.Towers.Config
+namespace TowerDefence.Core.Runtime.Scene.Scene
 {
     public class SceneLocationSettings : MonoBehaviour, ISceneLocationSettings
     {
